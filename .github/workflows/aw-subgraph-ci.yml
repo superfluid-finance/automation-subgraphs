@@ -1,0 +1,41 @@
+name: Deploy Superfluid WrapScheduler Subgraphs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "release-v1/*"
+    paths:
+      - "subgraphs/wrap-scheduler/**"
+     
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: subgraphs/wrap-scheduler
+    strategy: 
+      matrix:
+        networks: ["avalanche-c", "arbitrum-one", "bsc-mainnet", "eth-mainnet", "eth-goerli", "xdai-mainnet", "optimism-mainnet", "polygon-mainnet", "polygon-mumbai"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+      - name: Install
+        run: pnpm
+      - name: Yaml
+        run: pnpm gen:yaml
+      - name: Types
+        run: pnpm gen:types
+      - name: Build
+        run: pnpm build
+#      - name: Test
+#        run: yarn test
+      - name: GraphCLI
+        run: npm i -g @graphprotocol/graph-cli
+      - name: Graph Auth
+        run: graph auth --product hosted-service ${{secrets.THE_GRAPH_ACCESS_TOKEN}}
+      - name: Graph Deploy
+        run: graph deploy --product hosted-service superfluid-finance/${{format('auto-wrap-v1-{0}', matrix.networks)}} ${{format('./{0}.subgraph.yaml', matrix.networks)}}

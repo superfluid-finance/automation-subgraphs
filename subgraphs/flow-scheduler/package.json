@@ -17,8 +17,8 @@
     "test": "graph test"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.55.0",
-    "@graphprotocol/graph-ts": "^0.31.0",
+    "@graphprotocol/graph-cli": "^0.3.2",
+    "@graphprotocol/graph-ts": "^0.28.1",
     "@types/node": "^20.5.4",
     "assemblyscript-json": "^1.1.0",
     "matchstick-as": "^0.5.2",

@@ -1,0 +1,5 @@
+{
+  "network": "goerli",
+  "wrapSchedulerAddress": "0x0B82D14E9616ca4d260E77454834AdCf5887595F",
+  "wrapSchedulerStartBlock": 8122175
+}

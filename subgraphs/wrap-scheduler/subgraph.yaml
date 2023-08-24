@@ -1,0 +1,42 @@
+specVersion: 0.0.5
+description: Subgraph for the auto-wrap Scheduler
+repository: https://github.com/superfluid-finance/platform-monorepo
+schema:
+    file: ./schema.graphql
+dataSources:
+    - kind: ethereum/contract
+      name: WrapScheduler
+      network: {{ network }}
+      source:
+          abi: WrapManager
+          address: "{{wrapSchedulerAddress}}"
+          startBlock: {{wrapSchedulerStartBlock}}
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.7
+          language: wasm/assemblyscript
+          file: ./src/mappings/wrapManager.ts
+          entities:
+              - WrapExecuted
+              - WrapScheduleCreated
+              - WrapScheduleDeleted
+              - AddedApprovedStrategy
+              - RemovedApprovedStrategy
+              - LimitsChanged
+          abis:
+              - name: WrapManager
+                file: ./abis/WrapManager.json
+          eventHandlers:
+              - event: WrapScheduleCreated(indexed bytes32,indexed address,indexed address,address,address,uint256,uint256,uint256)
+                handler: handleWrapScheduleCreated 
+              - event: WrapScheduleDeleted(indexed bytes32,indexed address,indexed address,address,address)
+                handler: handleWrapScheduleDeleted
+              - event: WrapExecuted(indexed bytes32,uint256)
+                handler: handleWrapExecuted
+              # - event: AddedApprovedStrategy(indexed address)
+              #   handler: handleAddedApprovedStrategy
+              # - event: RemovedApprovedStrategy(indexed address)
+              #   handler: handleRemovedApprovedStrategy
+              - event: LimitsChanged(uint64,uint64)
+                handler: handleLimitsChanged
+ 

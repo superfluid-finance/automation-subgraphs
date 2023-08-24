@@ -1,0 +1,5 @@
+{
+  "network": "mainnet",
+  "vestingSchedulerAddress": "0x39D5cBBa9adEBc25085a3918d36D5325546C001B",
+  "vestingSchedulerStartBlock": 16418958
+}

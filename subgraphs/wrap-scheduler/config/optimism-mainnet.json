@@ -1,0 +1,5 @@
+{
+  "network": "optimism",
+  "wrapSchedulerAddress": "0x1fA76f2Cd0C3fe6c399A80111408d9C42C0CAC23",
+  "wrapSchedulerStartBlock": 91580804
+}

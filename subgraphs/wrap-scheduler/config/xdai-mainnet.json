@@ -1,0 +1,5 @@
+{
+  "network": "gnosis",
+  "wrapSchedulerAddress": "0x8082e58681350876aFe8f52d3Bf8672034A03Db0",
+  "wrapSchedulerStartBlock": 27495360
+}

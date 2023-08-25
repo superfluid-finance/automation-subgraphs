@@ -12,13 +12,13 @@
     "deploy:test": "graph deploy --product hosted-service tokdaniel/vesting-v1-mumbai-test polygon-mumbai.subgraph.yaml",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
-    "gen:types": "graph codegen ./eth-mainnet.subgraph.yaml --output-dir src/types/",
+    "gen:types": "graph codegen ./eth-goerli.subgraph.yaml --output-dir src/types/",
     "gen:yaml": "ts-node ./scripts/generate-yamls.ts",
     "test": "graph test"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.3.2",
-    "@graphprotocol/graph-ts": "^0.28.1",
+    "@graphprotocol/graph-cli": "^0.56.0",
+    "@graphprotocol/graph-ts": "^0.29.3",
     "@types/node": "^20.5.4",
     "assemblyscript-json": "^1.1.0",
     "matchstick-as": "^0.5.2",

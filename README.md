@@ -7,6 +7,10 @@ Superfluid Automation Subgraphs index the [peripheral Superfluid automation cont
 - Flow Scheduler: https://api.thegraph.com/subgraphs/name/superfluid-finance/scheduling-v1-eth-goerli
 - Auto-Wrap: https://api.thegraph.com/subgraphs/name/superfluid-finance/auto-wrap-v1-eth-goerli
 
+## Smart Contracts
+- Source code: https://github.com/superfluid-finance/protocol-monorepo/tree/dev/packages/automation-contracts
+- Deployment addresses: https://github.com/superfluid-finance/protocol-monorepo/tree/dev/packages/metadata
+
 ## License
 
 The Superfluid Automation Subgraphs [MIT licensed](./LICENSE).

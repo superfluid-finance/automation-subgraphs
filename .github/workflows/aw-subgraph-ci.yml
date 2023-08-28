@@ -23,19 +23,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Install
-        run: pnpm
-      - name: Yaml
-        run: pnpm gen:yaml
-      - name: Types
-        run: pnpm gen:types
+        run: pnpm install
+      - name: Generate YAML & Types
+        run: pnpm gen
       - name: Build
         run: pnpm build
-      - name: GraphCLI
-        run: npm i -g @graphprotocol/graph-cli
-      #      - name: Test
-      #        run: yarn test
+      - name: Test
+        run: pnpm test
       - name: Graph Auth
-        run: graph auth --product hosted-service ${{secrets.THE_GRAPH_ACCESS_TOKEN}}
+        run: pnpm exec graph auth --product hosted-service ${{secrets.THE_GRAPH_ACCESS_TOKEN}}
       - name: Graph Deploy
-        run: graph deploy --product hosted-service superfluid-finance/${{format('auto-wrap-v1-{0}', matrix.networks)}} ${{format('./{0}.subgraph.yaml', matrix.networks)}}
+        run: pnpm exec graph deploy --product hosted-service superfluid-finance/${{format('auto-wrap-v1-{0}', matrix.networks)}} ${{format('./{0}.subgraph.yaml', matrix.networks)}}

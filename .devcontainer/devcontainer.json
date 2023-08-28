@@ -6,8 +6,6 @@
 	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {},
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers-contrib/features/act:1": {},
 		"ghcr.io/devcontainers-contrib/features/pnpm:2": {}
 	},
 
@@ -18,7 +16,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y libsecret-1-dev && pnpm install && pnpm gen && pnpm build"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y postgresql && pnpm install && pnpm gen && pnpm build && pnpm test"
 
 	// Configure tool-specific properties.
 	// "customizations": {},

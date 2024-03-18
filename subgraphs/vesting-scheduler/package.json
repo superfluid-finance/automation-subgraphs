@@ -8,8 +8,8 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./bsc-mainnet.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-bsc-mainnet/1.1.0 --path ./build",
+    "build": "graph build ./polygon-mainnet.subgraph.yaml",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-polygon-mainnet/1.1.0 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./bsc-mainnet.subgraph.yaml --output-dir src/types/",
@@ -18,17 +18,19 @@
   },
   "devDependencies": {
     "@goldskycom/cli": "^8.5.1",
-    "@graphprotocol/graph-cli": "^0.56.0",
-    "@graphprotocol/graph-ts": "^0.29.3",
+    "@graphprotocol/graph-cli": "^0.68.5",
+    "@graphprotocol/graph-ts": "^0.33.0",
     "@types/node": "^20.11.28",
-    "assemblyscript": "^0.19.23",
+    "assemblyscript": "0.19.23",
     "assemblyscript-json": "^1.1.0",
-    "matchstick-as": "^0.5.2",
     "mustache": "^4.2.0",
     "nodemon": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "matchstick-as": "^0.6.0"
   }
 }

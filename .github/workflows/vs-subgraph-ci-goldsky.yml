@@ -46,8 +46,6 @@ jobs:
         run: pnpm exec graph build ${{format('./{0}.subgraph.yaml', matrix.networks)}}
       - name: Test
         run: pnpm test
-      - name: Goldsky Auth
-        run: pnpm exec goldsky login --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Get Version
         id: get-version
         uses: actions/github-script@v4
@@ -58,6 +56,6 @@ jobs:
             const packageJson = JSON.parse(fs.readFileSync('package.json'));
             return packageJson.version;
       - name: Goldsky Deploy
-        run: pnpm exec goldsky subgraph deploy ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build
+        run: pnpm exec goldsky subgraph deploy ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Goldsky Tag
-        run: pnpm exec goldsky subgraph tag ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest
+        run: pnpm exec goldsky subgraph tag ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}

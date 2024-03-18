@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "release-v1/*"
+      - "goldsky"
     paths:
       - "subgraphs/vesting-scheduler/**"
 

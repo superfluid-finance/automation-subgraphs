@@ -1,11 +1,11 @@
-name: Deploy Superfluid VestingScheduler Subgraphs
+name: Deploy Superfluid VestingScheduler Subgraphs (Goldsky)
 
 on:
   workflow_dispatch:
   push:
     branches:
       - "release-v1/*"
-      - "goldsky"
+      - "goldsky/*"
     paths:
       - "subgraphs/vesting-scheduler/**"
 

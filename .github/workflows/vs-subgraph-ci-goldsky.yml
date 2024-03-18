@@ -1,4 +1,4 @@
-name: Deploy Superfluid VestingScheduler Subgraphs (Goldsky)
+name: Deploy VestingScheduler Subgraphs (Goldsky)
 
 on:
   workflow_dispatch:

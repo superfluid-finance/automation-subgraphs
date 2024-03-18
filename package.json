@@ -9,5 +9,8 @@
     "gen": "pnpm -r gen",
     "build": "pnpm -r build",
     "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "@goldskycom/cli": "^8.5.1"
   }
 }

@@ -23,7 +23,6 @@ jobs:
             "arbitrum-one",
             "bsc-mainnet",
             "eth-mainnet",
-            "eth-goerli",
             "xdai-mainnet",
             "optimism-mainnet",
             "polygon-mainnet",

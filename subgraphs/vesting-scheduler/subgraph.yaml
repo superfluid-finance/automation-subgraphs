@@ -1,42 +1,41 @@
-specVersion: 0.0.5
+specVersion: 0.0.8
 description: Subgraph for the Vesting Scheduler
 repository: https://github.com/superfluid-finance/platform-monorepo
 schema:
-    file: ./schema.graphql
+  file: ./schema.graphql
 dataSources:
-    - kind: ethereum/contract
-      name: VestingScheduler
-      network: {{ network }}
-      source:
-          abi: VestingScheduler
-          address: "{{vestingSchedulerAddress}}"
-          startBlock: {{vestingSchedulerStartBlock}}
-      mapping:
-          kind: ethereum/events
-          apiVersion: 0.0.7
-          language: wasm/assemblyscript
-          file: ./src/mappings/vestingScheduler.ts
-          entities:
-              - VestingCliffAndFlowExecuted
-              - VestingEndExecuted
-              - VestingScheduleCreated
-              - VestingScheduleDeleted
-              - VestingScheduleUpdated
-              - VestingEndFailed
-          abis:
-              - name: VestingScheduler
-                file: ./abis/VestingScheduler.json
-          eventHandlers:
-              - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
-                handler: handleVestingCliffAndFlowExecuted
-              - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
-                handler: handleVestingEndExecuted  
-              - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256)
-                handler: handleVestingScheduleCreated
-              - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
-                handler: handleVestingScheduleDeleted  
-              - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32)
-                handler: handleVestingScheduleUpdated 
-              - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
-                handler: handleVestingEndFailed
- 
+  - kind: ethereum/contract
+    name: VestingScheduler
+    network: {{ network }}
+    source:
+      abi: VestingScheduler
+      address: "{{ vestingSchedulerAddress }}"
+      startBlock: {{ vestingSchedulerStartBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/vestingScheduler.ts
+      entities:
+        - VestingCliffAndFlowExecuted
+        - VestingEndExecuted
+        - VestingScheduleCreated
+        - VestingScheduleDeleted
+        - VestingScheduleUpdated
+        - VestingEndFailed
+      abis:
+        - name: VestingScheduler
+          file: ./abis/VestingScheduler.json
+      eventHandlers:
+        - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
+          handler: handleVestingCliffAndFlowExecuted
+        - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
+          handler: handleVestingEndExecuted
+        - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256)
+          handler: handleVestingScheduleCreated
+        - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
+          handler: handleVestingScheduleDeleted
+        - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32)
+          handler: handleVestingScheduleUpdated
+        - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
+          handler: handleVestingEndFailed

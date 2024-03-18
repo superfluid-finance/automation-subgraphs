@@ -11,8 +11,8 @@ export function createVestingSchedule(
   scheduler: Address
 ): VestingSchedule {
   const vestingScheduler = VestingScheduler.bind(scheduler);
-  const startValidAfterSeconds = vestingScheduler.START_DATE_VALID_AFTER();
   const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
+  const startValidAfterSeconds = vestingScheduler.START_DATE_VALID_AFTER();
 
   const id = `${ev.transactionHash.toHexString()}-${ev.logIndex}`;
   let vestingSchedule = new VestingSchedule(id);

@@ -3,3 +3,38 @@ lockfileVersion: '6.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+
+devDependencies:
+  '@goldskycom/cli':
+    specifier: ^8.5.1
+    version: 8.5.1
+
+packages:
+
+  /@goldskycom/cli@8.5.1:
+    resolution: {integrity: sha512-jLXwRh4EFU8KByZnOG3EIuM6E4tbJz7er3XSF0cOIVPZJxOAqIWZuuOZeZpyhUsbvturisumO/GAwUIfOErGCg==}
+    hasBin: true
+    dependencies:
+      cuid: 2.1.8
+      parse-duration: 1.1.0
+      readline-sync: 1.4.10
+      timeago.js: 4.0.2
+    dev: true
+
+  /cuid@2.1.8:
+    resolution: {integrity: sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==}
+    deprecated: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.
+    dev: true
+
+  /parse-duration@1.1.0:
+    resolution: {integrity: sha512-z6t9dvSJYaPoQq7quMzdEagSFtpGu+utzHqqxmpVWNNZRIXnvqyCvn9XsTdh7c/w0Bqmdz3RB3YnRaKtpRtEXQ==}
+    dev: true
+
+  /readline-sync@1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /timeago.js@4.0.2:
+    resolution: {integrity: sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w==}
+    dev: true

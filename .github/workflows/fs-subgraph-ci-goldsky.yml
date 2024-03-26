@@ -55,4 +55,4 @@ jobs:
       - name: Goldsky Deploy
         run: pnpm exec goldsky subgraph deploy ${{format('scheduling-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Goldsky Tag
-        run: pnpm exec goldsky subgraph tag ${{format('scheduling-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}
+        run: pnpm exec goldsky subgraph tag create ${{format('scheduling-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}

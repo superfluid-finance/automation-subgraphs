@@ -1,4 +1,4 @@
-name: Deploy Superfluid WrapScheduler Subgraphs
+name: Deploy Superfluid WrapScheduler Subgraphs (Goldsky)
 
 on:
   workflow_dispatch:

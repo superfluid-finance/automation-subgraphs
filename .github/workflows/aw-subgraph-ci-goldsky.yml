@@ -1,4 +1,4 @@
-name: Deploy VestingScheduler Subgraphs (Goldsky)
+name: Deploy Superfluid WrapScheduler Subgraphs
 
 on:
   workflow_dispatch:
@@ -6,14 +6,14 @@ on:
     branches:
       - "release-v1/*"
     paths:
-      - "subgraphs/vesting-scheduler/**"
+      - "subgraphs/wrap-scheduler/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: subgraphs/vesting-scheduler
+        working-directory: subgraphs/wrap-scheduler
     strategy:
       matrix:
         networks:
@@ -53,6 +53,6 @@ jobs:
             const packageJson = JSON.parse(fs.readFileSync('package.json'));
             return packageJson.version;
       - name: Goldsky Deploy
-        run: pnpm exec goldsky subgraph deploy ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build --token ${{secrets.GOLDSKY_API_KEY}}
+        run: pnpm exec goldsky subgraph deploy ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Goldsky Tag
-        run: pnpm exec goldsky subgraph tag ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}
+        run: pnpm exec goldsky subgraph tag ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}

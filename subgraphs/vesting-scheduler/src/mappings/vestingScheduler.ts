@@ -23,16 +23,30 @@ import {
   getVestingSchedule,
 } from "../utils/vestingSchedule";
 
-export function handleVestingCliffAndFlowExecuted(
+export function handleVestingCliffAndFlowExecuted_v1(
   event: VestingCliffAndFlowExecuted
 ): void {
-  const ev = createVestingCliffAndFlowExecutedEntity(event);
+  _handleVestingCliffAndFlowExecuted(event, "v1");
+}
+
+export function handleVestingCliffAndFlowExecuted_v2(
+  event: VestingCliffAndFlowExecuted
+): void {
+  _handleVestingCliffAndFlowExecuted(event, "v2");
+}
+
+function _handleVestingCliffAndFlowExecuted(
+  event: VestingCliffAndFlowExecuted,
+  contractVersion: string
+): void {
+  const ev = createVestingCliffAndFlowExecutedEntity(event, contractVersion);
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
 
   const currentVestingSchedule = getVestingSchedule(cursor);
@@ -60,31 +74,51 @@ export function handleVestingCliffAndFlowExecuted(
   }
 }
 
-export function handleVestingScheduleCreated(
+export function handleVestingScheduleCreated_v1(
   event: VestingScheduleCreated
 ): void {
-  const ev = createVestingScheduleCreatedEventEntity(event);
+  _handleVestingScheduleCreated(event, "v1");
+}
+
+export function handleVestingScheduleCreated_v2(
+  event: VestingScheduleCreated
+): void {
+  _handleVestingScheduleCreated(event, "v2");
+}
+
+function _handleVestingScheduleCreated(
+  event: VestingScheduleCreated,
+  contractVersion: string
+): void {
+  const ev = createVestingScheduleCreatedEventEntity(event, contractVersion);
   ev.save();
 
-  const currentVestingSchedule = createVestingSchedule(ev, event.address);
+  const currentVestingSchedule = createVestingSchedule(
+    ev,
+    event.address,
+    contractVersion
+  );
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
 
   const cliffAndFlowTask = createTask(
     currentVestingSchedule,
     "ExecuteCliffAndFlow",
     event.transaction.hash.toHexString(),
-    event.logIndex
+    event.logIndex,
+    contractVersion
   );
 
   const endVestingTask = createTask(
     currentVestingSchedule,
     "ExecuteEndVesting",
     event.transaction.hash.toHexString(),
-    event.logIndex
+    event.logIndex,
+    contractVersion
   );
 
   cursor.currentVestingSchedule = currentVestingSchedule.id;
@@ -97,53 +131,30 @@ export function handleVestingScheduleCreated(
   endVestingTask.save();
 }
 
-export function handleVestingScheduleCreatedV2(
-  event: VestingScheduleCreated
-): void {
-  const ev = createVestingScheduleCreatedEventEntity(event);
-  ev.save();
-
-  const currentVestingSchedule = createVestingSchedule(ev, event.address);
-  const cursor = getOrCreateTokenSenderReceiverCursor(
-    ev.superToken,
-    ev.sender,
-    ev.receiver
-  );
-
-  const cliffAndFlowTask = createTask(
-    currentVestingSchedule,
-    "ExecuteCliffAndFlow",
-    event.transaction.hash.toHexString(),
-    event.logIndex
-  );
-
-  const endVestingTask = createTask(
-    currentVestingSchedule,
-    "ExecuteEndVesting",
-    event.transaction.hash.toHexString(),
-    event.logIndex
-  );
-
-  cursor.currentVestingSchedule = currentVestingSchedule.id;
-  cursor.currentCliffAndFlowTask = cliffAndFlowTask.id;
-  cursor.currentEndVestingTask = endVestingTask.id;
-
-  currentVestingSchedule.save();
-  cursor.save();
-  cliffAndFlowTask.save();
-  endVestingTask.save();
-}
-
-export function handleVestingScheduleDeleted(
+export function handleVestingScheduleDeleted_v1(
   event: VestingScheduleDeleted
 ): void {
-  const ev = createVestingScheduleDeletedEventEntity(event);
+  _handleVestingScheduleDeleted(event, "v1");
+}
+
+export function handleVestingScheduleDeleted_v2(
+  event: VestingScheduleDeleted
+): void {
+  _handleVestingScheduleDeleted(event, "v2");
+}
+
+function _handleVestingScheduleDeleted(
+  event: VestingScheduleDeleted,
+  contractVersion: string
+): void {
+  const ev = createVestingScheduleDeletedEventEntity(event, contractVersion);
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
   const currentVestingSchedule = getVestingSchedule(cursor);
 
@@ -182,10 +193,23 @@ export function handleVestingScheduleDeleted(
   cursor.save();
 }
 
-export function handleVestingScheduleUpdated(
+export function handleVestingScheduleUpdated_v1(
   event: VestingScheduleUpdated
 ): void {
-  const ev = createVestingUpdatedEntity(event);
+  _handleVestingScheduleUpdated(event, "v1");
+}
+
+export function handleVestingScheduleUpdated_v2(
+  event: VestingScheduleUpdated
+): void {
+  _handleVestingScheduleUpdated(event, "v2");
+}
+
+function _handleVestingScheduleUpdated(
+  event: VestingScheduleUpdated,
+  contractVersion: string
+): void {
+  const ev = createVestingUpdatedEntity(event, contractVersion);
   ev.save();
 
   const vestingScheduler = VestingScheduler.bind(event.address);
@@ -194,7 +218,8 @@ export function handleVestingScheduleUpdated(
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
 
   const currentVestingSchedule = getVestingSchedule(cursor);
@@ -218,14 +243,26 @@ export function handleVestingScheduleUpdated(
   }
 }
 
-export function handleVestingEndExecuted(event: VestingEndExecuted): void {
-  const ev = createVestingEndExecutedEventEntity(event);
+export function handleVestingEndExecuted_v1(event: VestingEndExecuted): void {
+  _handleVestingEndExecuted(event, "v1");
+}
+
+export function handleVestingEndExecuted_v2(event: VestingEndExecuted): void {
+  _handleVestingEndExecuted(event, "v2");
+}
+
+function _handleVestingEndExecuted(
+  event: VestingEndExecuted,
+  contractVersion: string
+): void {
+  const ev = createVestingEndExecutedEventEntity(event, contractVersion);
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
   const currentVestingSchedule = getVestingSchedule(cursor);
 
@@ -254,14 +291,26 @@ export function handleVestingEndExecuted(event: VestingEndExecuted): void {
   }
 }
 
-export function handleVestingEndFailed(event: VestingEndFailed): void {
-  const ev = createVestingEndFailedEventEntity(event);
+export function handleVestingEndFailed_v1(event: VestingEndFailed): void {
+  _handleVestingEndFailed(event, "v1");
+}
+
+export function handleVestingEndFailed_v2(event: VestingEndFailed): void {
+  _handleVestingEndFailed(event, "v2");
+}
+
+function _handleVestingEndFailed(
+  event: VestingEndFailed,
+  contractVersion: string
+): void {
+  const ev = createVestingEndFailedEventEntity(event, contractVersion);
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
     ev.superToken,
     ev.sender,
-    ev.receiver
+    ev.receiver,
+    contractVersion
   );
 
   const currentVestingSchedule = getVestingSchedule(cursor);

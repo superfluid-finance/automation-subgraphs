@@ -1,13 +1,15 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { Task, VestingSchedule } from "../types/schema";
+import { getContractVersionSuffix } from "./general";
 
 export function createTask(
   schedule: VestingSchedule,
   type: string,
   hash: string,
-  logIndex: BigInt
+  logIndex: BigInt,
+  contractVersion: string
 ): Task {
-  const id = `${type}-${hash}-${logIndex.toString()}`;
+  const id = `${type}-${hash}-${logIndex.toString()}${getContractVersionSuffix(contractVersion)}`;
   let task = new Task(id);
 
   task.type = type;

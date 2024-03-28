@@ -12,7 +12,7 @@
     "deploy:test": "goldsky subgraph deploy vesting-v1-polygon-mainnet/1.1.0 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
-    "gen:types": "graph codegen ./bsc-mainnet.subgraph.yaml --output-dir src/types/",
+    "gen:types": "graph codegen ./polygon-mumbai.subgraph.yaml --output-dir src/types/",
     "gen:yaml": "ts-node ./scripts/generate-yamls.ts",
     "test": "graph test"
   },

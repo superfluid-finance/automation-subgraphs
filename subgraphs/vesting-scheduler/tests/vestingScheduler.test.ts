@@ -8,12 +8,12 @@ import {
   test,
 } from "matchstick-as";
 import {
-  handleVestingCliffAndFlowExecuted,
-  handleVestingEndExecuted,
-  handleVestingEndFailed,
-  handleVestingScheduleCreated,
-  handleVestingScheduleDeleted,
-  handleVestingScheduleUpdated,
+  handleVestingCliffAndFlowExecuted_v1,
+  handleVestingEndExecuted_v1,
+  handleVestingEndFailed_v1,
+  handleVestingScheduleCreated_v1,
+  handleVestingScheduleDeleted_v1,
+  handleVestingScheduleUpdated_v1,
 } from "../src/mappings/vestingScheduler";
 import { Task } from "../src/types/schema";
 import { getOrCreateTokenSenderReceiverCursor } from "../src/utils/tokenSenderReceiverCursor";
@@ -32,6 +32,8 @@ import {
 let contractAddress = Address.fromString(
   "0xA16081F360e3847006dB660bae1c6d1b2e17eC2A"
 );
+
+let contractVersion = "v1";
 
 mockFunction(
   contractAddress,
@@ -84,7 +86,7 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(event);
+        handleVestingScheduleCreated_v1(event);
 
         const id = assertEventBaseProperties(event, "VestingScheduleCreated");
         assert.fieldEquals(
@@ -139,7 +141,7 @@ describe("Host Mapper Unit Tests", () => {
           receiver
         );
 
-        handleVestingScheduleDeleted(event);
+        handleVestingScheduleDeleted_v1(event);
 
         const id = assertEventBaseProperties(event, "VestingScheduleDeleted");
         assert.fieldEquals(
@@ -167,7 +169,7 @@ describe("Host Mapper Unit Tests", () => {
           false
         );
 
-        handleVestingEndExecuted(event);
+        handleVestingEndExecuted_v1(event);
 
         const id = assertEventBaseProperties(event, "VestingEndExecuted");
         assert.fieldEquals(
@@ -206,7 +208,7 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingEndFailed(event);
+        handleVestingEndFailed_v1(event);
 
         const id = assertEventBaseProperties(event, "VestingEndFailed");
         assert.fieldEquals(
@@ -236,7 +238,7 @@ describe("Host Mapper Unit Tests", () => {
           flowDelayCompensation
         );
 
-        handleVestingCliffAndFlowExecuted(event);
+        handleVestingCliffAndFlowExecuted_v1(event);
 
         const id = assertEventBaseProperties(
           event,
@@ -295,7 +297,7 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleUpdated(event);
+        handleVestingScheduleUpdated_v1(event);
 
         const id = assertEventBaseProperties(event, "VestingScheduleUpdated");
         assert.fieldEquals(
@@ -340,12 +342,13 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(event);
+        handleVestingScheduleCreated_v1(event);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         const vestingSchedule = getVestingSchedule(cursor)!;
@@ -396,13 +399,14 @@ describe("Host Mapper Unit Tests", () => {
           flowDelayCompensation
         );
 
-        handleVestingScheduleCreated(createEvent);
-        handleVestingCliffAndFlowExecuted(cliffAndFlowEvent);
+        handleVestingScheduleCreated_v1(createEvent);
+        handleVestingCliffAndFlowExecuted_v1(cliffAndFlowEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         const vestingSchedule = getVestingSchedule(cursor)!;
@@ -433,13 +437,14 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(createEvent);
-        handleVestingScheduleUpdated(updateEvent);
+        handleVestingScheduleCreated_v1(createEvent);
+        handleVestingScheduleUpdated_v1(updateEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         const vestingSchedule = getVestingSchedule(cursor)!;
@@ -465,13 +470,14 @@ describe("Host Mapper Unit Tests", () => {
           receiver
         );
 
-        handleVestingScheduleCreated(createEvent);
-        handleVestingScheduleDeleted(deletedEvent);
+        handleVestingScheduleCreated_v1(createEvent);
+        handleVestingScheduleDeleted_v1(deletedEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         assert.fieldEquals(
@@ -503,13 +509,14 @@ describe("Host Mapper Unit Tests", () => {
           false
         );
 
-        handleVestingScheduleCreated(createEvent);
-        handleVestingEndExecuted(executedEvent);
+        handleVestingScheduleCreated_v1(createEvent);
+        handleVestingEndExecuted_v1(executedEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         const vestingSchedule = getVestingSchedule(cursor)!;
@@ -539,13 +546,14 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(createEvent);
-        handleVestingEndFailed(failedEvent);
+        handleVestingScheduleCreated_v1(createEvent);
+        handleVestingEndFailed_v1(failedEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         const vestingSchedule = getVestingSchedule(cursor)!;
@@ -577,12 +585,13 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(event);
+        handleVestingScheduleCreated_v1(event);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         assert.assertNotNull(cursor.currentCliffAndFlowTask);
@@ -619,17 +628,18 @@ describe("Host Mapper Unit Tests", () => {
           flowDelayCompensation
         );
 
-        handleVestingScheduleCreated(createdEvent);
+        handleVestingScheduleCreated_v1(createdEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         let cliffAndFlowTask = Task.load(cursor.currentCliffAndFlowTask!)!;
 
-        handleVestingCliffAndFlowExecuted(cliffAndFlowEvent);
+        handleVestingCliffAndFlowExecuted_v1(cliffAndFlowEvent);
 
         cliffAndFlowTask = Task.load(cliffAndFlowTask.id)!;
 
@@ -661,18 +671,19 @@ describe("Host Mapper Unit Tests", () => {
           receiver
         );
 
-        handleVestingScheduleCreated(createdEvent);
+        handleVestingScheduleCreated_v1(createdEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         let cliffAndFlowTask = Task.load(cursor.currentCliffAndFlowTask!)!;
         let endTask = Task.load(cursor.currentEndVestingTask!)!;
 
-        handleVestingScheduleDeleted(deletedEvent);
+        handleVestingScheduleDeleted_v1(deletedEvent);
 
         cliffAndFlowTask = Task.load(cliffAndFlowTask.id)!;
         endTask = Task.load(cursor.currentEndVestingTask!)!;
@@ -718,15 +729,16 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(createdEvent);
+        handleVestingScheduleCreated_v1(createdEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
-        handleVestingScheduleUpdated(updatedEvent);
+        handleVestingScheduleUpdated_v1(updatedEvent);
 
         const endTask = Task.load(cursor.currentEndVestingTask!)!;
 
@@ -759,17 +771,18 @@ describe("Host Mapper Unit Tests", () => {
           false
         );
 
-        handleVestingScheduleCreated(createdEvent);
+        handleVestingScheduleCreated_v1(createdEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         let endTask = Task.load(cursor.currentEndVestingTask!)!;
 
-        handleVestingEndExecuted(endedEvent);
+        handleVestingEndExecuted_v1(endedEvent);
 
         endTask = Task.load(endTask.id)!;
 
@@ -800,17 +813,18 @@ describe("Host Mapper Unit Tests", () => {
           endDate
         );
 
-        handleVestingScheduleCreated(createdEvent);
+        handleVestingScheduleCreated_v1(createdEvent);
 
         const cursor = getOrCreateTokenSenderReceiverCursor(
           Bytes.fromHexString(superToken),
           Bytes.fromHexString(sender),
-          Bytes.fromHexString(receiver)
+          Bytes.fromHexString(receiver),
+          contractVersion
         );
 
         let endTask = Task.load(cursor.currentEndVestingTask!)!;
 
-        handleVestingEndFailed(failedEvent);
+        handleVestingEndFailed_v1(failedEvent);
 
         endTask = Task.load(endTask.id)!;
 

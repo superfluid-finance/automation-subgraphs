@@ -29,26 +29,26 @@ dataSources:
           file: ./abis/VestingScheduler.json
       eventHandlers:
         - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
-          handler: handleVestingCliffAndFlowExecuted
+          handler: handleVestingCliffAndFlowExecuted_v1
         - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
-          handler: handleVestingEndExecuted
+          handler: handleVestingEndExecuted_v1
         - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256)
-          handler: handleVestingScheduleCreated
+          handler: handleVestingScheduleCreated_v1
         - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
-          handler: handleVestingScheduleDeleted
+          handler: handleVestingScheduleDeleted_v1
         - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32)
-          handler: handleVestingScheduleUpdated
+          handler: handleVestingScheduleUpdated_v1
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
-          handler: handleVestingEndFailed
+          handler: handleVestingEndFailed_v1
   {{/vestingSchedulerAddress}}
-  {{#vestingSchedulerV2Address}}
+  {{#vestingSchedulerAddress_v2}}
   - kind: ethereum/contract
-    name: VestingSchedulerV2
+    name: VestingScheduler_v2
     network: {{ network }}
     source:
       abi: VestingScheduler
-      address: "{{ vestingSchedulerV2Address }}"
-      startBlock: {{ vestingSchedulerV2StartBlock }}
+      address: "{{ vestingSchedulerAddress_v2 }}"
+      startBlock: {{ vestingSchedulerStartBlock_v2 }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -63,18 +63,18 @@ dataSources:
         - VestingEndFailed
       abis:
         - name: VestingScheduler
-          file: ./abis/VestingScheduler.json
+          file: ./abis/VestingScheduler_v2.json
       eventHandlers:
         - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
-          handler: handleVestingCliffAndFlowExecuted
+          handler: handleVestingCliffAndFlowExecuted_v2
         - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
-          handler: handleVestingEndExecuted
+          handler: handleVestingEndExecuted_v2
         - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,uint256)
-          handler: handleVestingScheduleCreatedV2
+          handler: handleVestingScheduleCreated_v2
         - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
-          handler: handleVestingScheduleDeleted
+          handler: handleVestingScheduleDeleted_v2
         - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32)
-          handler: handleVestingScheduleUpdated
+          handler: handleVestingScheduleUpdated_v2
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
-          handler: handleVestingEndFailed
-  {{/vestingSchedulerV2Address}}
+          handler: handleVestingEndFailed_v2
+  {{/vestingSchedulerAddress_v2}}

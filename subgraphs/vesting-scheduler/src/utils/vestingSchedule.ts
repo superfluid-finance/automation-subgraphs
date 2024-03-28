@@ -5,16 +5,18 @@ import {
   VestingSchedule,
   VestingScheduleCreatedEvent,
 } from "./../types/schema";
+import { getContractVersionSuffix } from "./general";
 
 export function createVestingSchedule(
   ev: VestingScheduleCreatedEvent,
-  scheduler: Address
+  scheduler: Address,
+  contractVersion: string
 ): VestingSchedule {
   const vestingScheduler = VestingScheduler.bind(scheduler);
   const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
   const startValidAfterSeconds = vestingScheduler.START_DATE_VALID_AFTER();
 
-  const id = `${ev.transactionHash.toHexString()}-${ev.logIndex}`;
+  const id = `${ev.transactionHash.toHexString()}-${ev.logIndex}${getContractVersionSuffix(contractVersion)}`;
   let vestingSchedule = new VestingSchedule(id);
 
   vestingSchedule.createdAt = ev.timestamp;

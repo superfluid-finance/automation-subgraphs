@@ -122,7 +122,7 @@ type VestingScheduleCreatedEvent implements Event @entity(immutable: true) {
   flowRate: BigInt!
   endDate: BigInt!
   cliffAmount: BigInt!
-  remainderAmount: BigInt!
+  # remainderAmount: BigInt!
 }
 
 type VestingScheduleDeletedEvent implements Event @entity(immutable: true) {
@@ -171,8 +171,14 @@ type VestingScheduleUpdatedEvent implements Event @entity(immutable: true) {
   endDate: BigInt!
 }
 
+enum ContractVersion {
+  v1
+  v2
+}
+
 type VestingSchedule @entity {
   id: String!
+  contractVersion: ContractVersion!
   createdAt: BigInt!
   superToken: Bytes!
   sender: Bytes!
@@ -185,7 +191,7 @@ type VestingSchedule @entity {
   flowRate: BigInt!
   didEarlyEndCompensationFail: Boolean
   earlyEndCompensation: BigInt
-  remainderAmount: BigInt!
+  # remainderAmount: BigInt!
   cliffAndFlowExpirationAt: BigInt!
   endDateValidAt: BigInt!
   deletedAt: BigInt
@@ -198,6 +204,7 @@ type VestingSchedule @entity {
 
 type TokenSenderReceiverCursor @entity {
   id: String!
+  contractVersion: ContractVersion!
   currentVestingSchedule: VestingSchedule
   currentCliffAndFlowTask: Task
   currentEndVestingTask: Task

@@ -3,9 +3,12 @@ import { VestingEndFailed } from "../types/VestingScheduler/VestingScheduler";
 import { createEventID, setBaseProperties } from "./general";
 
 export function createVestingEndFailedEventEntity(
-  event: VestingEndFailed
+  event: VestingEndFailed,
+  contractVersion: string
 ): VestingEndFailedEvent {
-  let ev = new VestingEndFailedEvent(createEventID("VestingEndFailed", event));
+  let ev = new VestingEndFailedEvent(
+    createEventID("VestingEndFailed", event, contractVersion)
+  );
 
   ev = setBaseProperties("VestingEndFailedEvent", event, ev, [
     event.params.sender,

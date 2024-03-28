@@ -3,10 +3,11 @@ import { VestingCliffAndFlowExecuted } from "../types/VestingScheduler/VestingSc
 import { createEventID, setBaseProperties } from "./general";
 
 export function createVestingCliffAndFlowExecutedEntity(
-  event: VestingCliffAndFlowExecuted
+  event: VestingCliffAndFlowExecuted,
+  contractVersion: string
 ): VestingCliffAndFlowExecutedEvent {
   let ev = new VestingCliffAndFlowExecutedEvent(
-    createEventID("VestingCliffAndFlowExecuted", event)
+    createEventID("VestingCliffAndFlowExecuted", event, contractVersion)
   );
 
   ev = setBaseProperties("VestingCliffAndFlowExecutedEvent", event, ev, [

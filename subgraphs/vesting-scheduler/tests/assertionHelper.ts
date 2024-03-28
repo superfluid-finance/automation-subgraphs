@@ -10,10 +10,11 @@ import { createEventID, getOrder } from "../src/utils/general";
  */
 export function assertEventBaseProperties(
   event: ethereum.Event,
-  eventName: string
+  eventName: string,
+  contractVersion: string
 ): string {
   const entityType = eventName + "Event";
-  const id = createEventID(eventName, event);
+  const id = createEventID(eventName, event, contractVersion);
   const order = getOrder(event.block.number, event.logIndex);
 
   assert.fieldEquals(entityType, id, "id", id);

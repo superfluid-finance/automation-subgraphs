@@ -204,7 +204,6 @@ type VestingSchedule @entity {
 
 type TokenSenderReceiverCursor @entity {
   id: String!
-  contractVersion: ContractVersion!
   currentVestingSchedule: VestingSchedule
   currentCliffAndFlowTask: Task
   currentEndVestingTask: Task

@@ -88,7 +88,11 @@ describe("Host Mapper Unit Tests", () => {
 
         handleVestingScheduleCreated_v1(event);
 
-        const id = assertEventBaseProperties(event, "VestingScheduleCreated");
+        const id = assertEventBaseProperties(
+          event,
+          "VestingScheduleCreated",
+          contractVersion
+        );
         assert.fieldEquals(
           "VestingScheduleCreatedEvent",
           id,
@@ -143,7 +147,11 @@ describe("Host Mapper Unit Tests", () => {
 
         handleVestingScheduleDeleted_v1(event);
 
-        const id = assertEventBaseProperties(event, "VestingScheduleDeleted");
+        const id = assertEventBaseProperties(
+          event,
+          "VestingScheduleDeleted",
+          contractVersion
+        );
         assert.fieldEquals(
           "VestingScheduleDeletedEvent",
           id,
@@ -171,7 +179,11 @@ describe("Host Mapper Unit Tests", () => {
 
         handleVestingEndExecuted_v1(event);
 
-        const id = assertEventBaseProperties(event, "VestingEndExecuted");
+        const id = assertEventBaseProperties(
+          event,
+          "VestingEndExecuted",
+          contractVersion
+        );
         assert.fieldEquals(
           "VestingEndExecutedEvent",
           id,
@@ -210,7 +222,11 @@ describe("Host Mapper Unit Tests", () => {
 
         handleVestingEndFailed_v1(event);
 
-        const id = assertEventBaseProperties(event, "VestingEndFailed");
+        const id = assertEventBaseProperties(
+          event,
+          "VestingEndFailed",
+          contractVersion
+        );
         assert.fieldEquals(
           "VestingEndFailedEvent",
           id,
@@ -242,7 +258,8 @@ describe("Host Mapper Unit Tests", () => {
 
         const id = assertEventBaseProperties(
           event,
-          "VestingCliffAndFlowExecuted"
+          "VestingCliffAndFlowExecuted",
+          contractVersion
         );
         assert.fieldEquals(
           "VestingCliffAndFlowExecutedEvent",
@@ -299,7 +316,11 @@ describe("Host Mapper Unit Tests", () => {
 
         handleVestingScheduleUpdated_v1(event);
 
-        const id = assertEventBaseProperties(event, "VestingScheduleUpdated");
+        const id = assertEventBaseProperties(
+          event,
+          "VestingScheduleUpdated",
+          contractVersion
+        );
         assert.fieldEquals(
           "VestingScheduleUpdatedEvent",
           id,
@@ -743,7 +764,7 @@ describe("Host Mapper Unit Tests", () => {
         const endTask = Task.load(cursor.currentEndVestingTask!)!;
 
         assert.bigIntEquals(
-          endTask.executionAt!,
+          endTask.executionAt,
           updatedEvent.params.endDate.minus(BigInt.fromI32(1338))
         );
 

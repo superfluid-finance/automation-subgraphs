@@ -19,6 +19,7 @@ export function createVestingSchedule(
   const id = `${ev.transactionHash.toHexString()}-${ev.logIndex}${getContractVersionSuffix(contractVersion)}`;
   let vestingSchedule = new VestingSchedule(id);
 
+  vestingSchedule.contractVersion = contractVersion;
   vestingSchedule.createdAt = ev.timestamp;
   vestingSchedule.superToken = ev.superToken;
   vestingSchedule.sender = ev.sender;

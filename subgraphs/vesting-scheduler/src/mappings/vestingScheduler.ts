@@ -97,6 +97,43 @@ export function handleVestingScheduleCreated(
   endVestingTask.save();
 }
 
+export function handleVestingScheduleCreatedV2(
+  event: VestingScheduleCreated
+): void {
+  const ev = createVestingScheduleCreatedEventEntity(event);
+  ev.save();
+
+  const currentVestingSchedule = createVestingSchedule(ev, event.address);
+  const cursor = getOrCreateTokenSenderReceiverCursor(
+    ev.superToken,
+    ev.sender,
+    ev.receiver
+  );
+
+  const cliffAndFlowTask = createTask(
+    currentVestingSchedule,
+    "ExecuteCliffAndFlow",
+    event.transaction.hash.toHexString(),
+    event.logIndex
+  );
+
+  const endVestingTask = createTask(
+    currentVestingSchedule,
+    "ExecuteEndVesting",
+    event.transaction.hash.toHexString(),
+    event.logIndex
+  );
+
+  cursor.currentVestingSchedule = currentVestingSchedule.id;
+  cursor.currentCliffAndFlowTask = cliffAndFlowTask.id;
+  cursor.currentEndVestingTask = endVestingTask.id;
+
+  currentVestingSchedule.save();
+  cursor.save();
+  cliffAndFlowTask.save();
+  endVestingTask.save();
+}
+
 export function handleVestingScheduleDeleted(
   event: VestingScheduleDeleted
 ): void {

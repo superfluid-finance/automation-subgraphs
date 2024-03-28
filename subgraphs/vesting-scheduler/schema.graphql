@@ -122,6 +122,7 @@ type VestingScheduleCreatedEvent implements Event @entity(immutable: true) {
   flowRate: BigInt!
   endDate: BigInt!
   cliffAmount: BigInt!
+  remainderAmount: BigInt!
 }
 
 type VestingScheduleDeletedEvent implements Event @entity(immutable: true) {
@@ -184,6 +185,7 @@ type VestingSchedule @entity {
   flowRate: BigInt!
   didEarlyEndCompensationFail: Boolean
   earlyEndCompensation: BigInt
+  remainderAmount: BigInt!
   cliffAndFlowExpirationAt: BigInt!
   endDateValidAt: BigInt!
   deletedAt: BigInt

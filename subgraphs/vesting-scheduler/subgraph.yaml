@@ -4,6 +4,7 @@ repository: https://github.com/superfluid-finance/platform-monorepo
 schema:
   file: ./schema.graphql
 dataSources:
+  {{#vestingSchedulerAddress}}
   - kind: ethereum/contract
     name: VestingScheduler
     network: {{ network }}
@@ -39,3 +40,41 @@ dataSources:
           handler: handleVestingScheduleUpdated
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
           handler: handleVestingEndFailed
+  {{/vestingSchedulerAddress}}
+  {{#vestingSchedulerV2Address}}
+  - kind: ethereum/contract
+    name: VestingSchedulerV2
+    network: {{ network }}
+    source:
+      abi: VestingScheduler
+      address: "{{ vestingSchedulerV2Address }}"
+      startBlock: {{ vestingSchedulerV2StartBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/vestingScheduler.ts
+      entities:
+        - VestingCliffAndFlowExecuted
+        - VestingEndExecuted
+        - VestingScheduleCreated
+        - VestingScheduleDeleted
+        - VestingScheduleUpdated
+        - VestingEndFailed
+      abis:
+        - name: VestingScheduler
+          file: ./abis/VestingScheduler.json
+      eventHandlers:
+        - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
+          handler: handleVestingCliffAndFlowExecuted
+        - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
+          handler: handleVestingEndExecuted
+        - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,uint256)
+          handler: handleVestingScheduleCreatedV2
+        - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
+          handler: handleVestingScheduleDeleted
+        - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32)
+          handler: handleVestingScheduleUpdated
+        - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
+          handler: handleVestingEndFailed
+  {{/vestingSchedulerV2Address}}

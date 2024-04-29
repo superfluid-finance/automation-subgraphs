@@ -9,7 +9,7 @@
   "author": "Superfluid",
   "scripts": {
     "build": "graph build ./eth-mainnet.subgraph.yaml",
-    "deploy:test": "graph deploy --product hosted-service msoni89/auto-wrap-v1-mumbai-test polygon-mumbai.subgraph.yaml",
+    "deploy:test": "graph deploy --product hosted-service msoni89/auto-wrap-v1-opsepolia-test optimism-sepolia.subgraph.yaml",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./eth-mainnet.subgraph.yaml --output-dir src/types/",

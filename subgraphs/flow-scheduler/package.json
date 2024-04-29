@@ -8,8 +8,8 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./polygon-mumbai.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy scheduling-v1-mumbai-test/1.1.0 --path ./build",
+    "build": "graph build ./optimism-sepolia.subgraph.yaml",
+    "deploy:test": "goldsky subgraph deploy scheduling-v1-opsepolia-test/1.1.0 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./eth-mainnet.subgraph.yaml --output-dir src/types/",

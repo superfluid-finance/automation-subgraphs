@@ -25,6 +25,7 @@ jobs:
             "xdai-mainnet",
             "optimism-mainnet",
             "polygon-mainnet",
+            "optimism-sepolia",
           ]
     steps:
       - uses: actions/checkout@v2

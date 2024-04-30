@@ -6,13 +6,13 @@ settings:
 
 devDependencies:
   '@goldskycom/cli':
-    specifier: ^8.5.1
-    version: 8.5.1
+    specifier: ^8.7.0
+    version: 8.7.0
 
 packages:
 
-  /@goldskycom/cli@8.5.1:
-    resolution: {integrity: sha512-jLXwRh4EFU8KByZnOG3EIuM6E4tbJz7er3XSF0cOIVPZJxOAqIWZuuOZeZpyhUsbvturisumO/GAwUIfOErGCg==}
+  /@goldskycom/cli@8.7.0:
+    resolution: {integrity: sha512-QJqyHcLRmsn9YLWqU8s77XI+KKCy0c4sklxEp2+QpZZvsV352CyD4BlvipnDSKek//euBrfx5Fxafc/6/Wdo7g==}
     hasBin: true
     dependencies:
       cuid: 2.1.8

@@ -6,14 +6,14 @@ settings:
 
 devDependencies:
   '@goldskycom/cli':
-    specifier: ^8.5.1
-    version: 8.5.1
+    specifier: ^8.7.0
+    version: 8.7.0
   '@graphprotocol/graph-cli':
-    specifier: ^0.68.5
-    version: 0.68.5(@types/node@20.11.28)(node-fetch@3.3.2)(typescript@5.4.2)
+    specifier: ^0.71.0
+    version: 0.71.0(@types/node@20.11.28)(node-fetch@3.3.2)(typescript@5.4.2)
   '@graphprotocol/graph-ts':
-    specifier: ^0.33.0
-    version: 0.33.0
+    specifier: ^0.35.1
+    version: 0.35.1
   '@types/node':
     specifier: ^20.11.28
     version: 20.11.28
@@ -245,8 +245,8 @@ packages:
       js-yaml: 4.1.0
     dev: true
 
-  /@goldskycom/cli@8.5.1:
-    resolution: {integrity: sha512-jLXwRh4EFU8KByZnOG3EIuM6E4tbJz7er3XSF0cOIVPZJxOAqIWZuuOZeZpyhUsbvturisumO/GAwUIfOErGCg==}
+  /@goldskycom/cli@8.7.0:
+    resolution: {integrity: sha512-QJqyHcLRmsn9YLWqU8s77XI+KKCy0c4sklxEp2+QpZZvsV352CyD4BlvipnDSKek//euBrfx5Fxafc/6/Wdo7g==}
     hasBin: true
     dependencies:
       cuid: 2.1.8
@@ -255,8 +255,8 @@ packages:
       timeago.js: 4.0.2
     dev: true
 
-  /@graphprotocol/graph-cli@0.68.5(@types/node@20.11.28)(node-fetch@3.3.2)(typescript@5.4.2):
-    resolution: {integrity: sha512-3GY2pYr5LksO6JY6s5nvePnSKVdtzDEn1CUGezyjCMR1uq9YIXMPXKqcnrzCX/DLugioEabiEi2+yOg9+rnFDQ==}
+  /@graphprotocol/graph-cli@0.71.0(@types/node@20.11.28)(node-fetch@3.3.2)(typescript@5.4.2):
+    resolution: {integrity: sha512-ITcSBHuXPuaoRs7FzNtqD0tCOIy4JGsM3j4IQNA2yZgXgr/TmmHG7KTB/c3B5Zlnsr9foXrU71T6ixGmwJ4PKw==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
@@ -299,8 +299,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@graphprotocol/graph-ts@0.33.0:
-    resolution: {integrity: sha512-HBUVblHUdjQZ/MEjjYPzVgmh+SiuF9VV0D8KubYfFAtzkqpVJlvdyk+RZTAJUiu8hpyYy0EVIcAnLEPtKlwMGQ==}
+  /@graphprotocol/graph-ts@0.35.1:
+    resolution: {integrity: sha512-74CfuQmf7JI76/XCC34FTkMMKeaf+3Pn0FIV3m9KNeaOJ+OI3CvjMIVRhOZdKcJxsFCBGaCCl0eQjh47xTjxKA==}
     dependencies:
       assemblyscript: 0.19.10
     dev: true

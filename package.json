@@ -11,6 +11,6 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "@goldskycom/cli": "^8.5.1"
+    "@goldskycom/cli": "^8.7.0"
   }
 }

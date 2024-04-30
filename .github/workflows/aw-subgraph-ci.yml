@@ -18,12 +18,12 @@ jobs:
       matrix:
         networks: ["avalanche-c", "arbitrum-one", "bsc-mainnet", "eth-mainnet", "xdai-mainnet", "optimism-mainnet", "polygon-mainnet"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - uses: pnpm/action-setup@v2
+          node-version: 20
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - name: Install

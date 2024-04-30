@@ -58,5 +58,6 @@ jobs:
         run: pnpm exec goldsky login --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Goldsky Deploy
         run: pnpm exec goldsky subgraph deploy ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build
+        continue-on-error: true # We still want to tag the latest deployment if it was already deployed.
       - name: Goldsky Tag
         run: pnpm exec goldsky subgraph tag ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest

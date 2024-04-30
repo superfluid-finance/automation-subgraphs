@@ -1,5 +1,5 @@
 {
   "network": "avalanche",
-  "wrapSchedulerAddress": "0x8082e58681350876aFe8f52d3Bf8672034A03Db0",
-  "wrapSchedulerStartBlock": 28868150
+  "wrapManagerAddress": "0x8082e58681350876aFe8f52d3Bf8672034A03Db0",
+  "wrapManagerStartBlock": 28868150
 }

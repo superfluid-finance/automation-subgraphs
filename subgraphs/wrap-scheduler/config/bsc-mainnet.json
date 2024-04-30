@@ -1,5 +1,5 @@
 {
   "network": "bsc",
-  "wrapSchedulerAddress": "0x2AcdD61ac1EFFe1535109449c31889bdE8d7f325",
-  "wrapSchedulerStartBlock": 23843552
+  "wrapManagerAddress": "0x2AcdD61ac1EFFe1535109449c31889bdE8d7f325",
+  "wrapManagerStartBlock": 23843552
 }

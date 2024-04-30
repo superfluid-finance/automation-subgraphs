@@ -1,5 +1,5 @@
 {
   "network": "matic",
-  "wrapSchedulerAddress": "0x2581c27E7f6D6AF452E63fCe884EDE3EDd716b32",
-  "wrapSchedulerStartBlock": 36743912
+  "wrapManagerAddress": "0x2581c27E7f6D6AF452E63fCe884EDE3EDd716b32",
+  "wrapManagerStartBlock": 36743912
 }

@@ -27,6 +27,7 @@ jobs:
             "optimism-mainnet",
             "polygon-mainnet",
             "optimism-sepolia",
+            "base-mainnet"
           ]
     steps:
       - uses: actions/checkout@v4

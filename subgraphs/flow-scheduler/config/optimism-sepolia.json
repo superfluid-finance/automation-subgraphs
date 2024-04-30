@@ -1,5 +1,5 @@
 {
-    "network": "opsepolia",
+    "network": "optimism-sepolia",
     "flowSchedulerAddress": "0x73B1Ce21d03ad389C2A291B1d1dc4DAFE7B5Dc68",
     "flowSchedulerStartBlock": 11122218
 }

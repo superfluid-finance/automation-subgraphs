@@ -1,3 +1,4 @@
+import { log } from "@graphprotocol/graph-ts";
 import { VestingEndFailedEvent } from "../types/schema";
 import { VestingEndFailed } from "../types/VestingScheduler/VestingScheduler";
 import { createEventID, setBaseProperties } from "./general";
@@ -16,6 +17,13 @@ export function createVestingEndFailedEventEntity(
   ev.sender = event.params.sender;
   ev.receiver = event.params.receiver;
   ev.endDate = event.params.endDate;
+
+  const receipt = event.receipt;
+  if (receipt) {
+    ev.gasUsed = receipt.gasUsed;
+  } else {
+      log.critical("receipt MUST NOT be null, set `receipt: true` under `eventHandlers` in the manifest file", []);
+  }
 
   return ev;
 }

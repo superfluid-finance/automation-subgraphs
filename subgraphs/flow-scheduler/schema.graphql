@@ -88,6 +88,7 @@ type CreateFlowExecutedEvent implements Event @entity(immutable: true) {
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # CreateFlowExecutedEvent Specific Properties #
   superToken: Bytes!
@@ -116,6 +117,7 @@ type DeleteFlowExecutedEvent implements Event @entity(immutable: true) {
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # DeleteFlowExecutedEvent Specific Properties #
   superToken: Bytes!

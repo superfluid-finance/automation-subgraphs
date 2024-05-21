@@ -38,6 +38,7 @@ type VestingCliffAndFlowExecutedEvent implements Event
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # CreateVestingScheduleEvent Specific Properties #
   superToken: Bytes!
@@ -64,6 +65,7 @@ type VestingEndExecutedEvent implements Event @entity(immutable: true) {
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # VestingEndExecutedEvent Specific Properties #
   superToken: Bytes!
@@ -89,6 +91,7 @@ type VestingEndFailedEvent implements Event @entity(immutable: true) {
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # VestingEndExecutedEvent Specific Properties #
   superToken: Bytes!

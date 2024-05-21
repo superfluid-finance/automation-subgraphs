@@ -1,3 +1,4 @@
+import { log } from "@graphprotocol/graph-ts";
 import { DeleteFlowExecuted } from "../types/FlowScheduler/FlowScheduler";
 import { DeleteFlowExecutedEvent } from "../types/schema";
 import { createEventID, setBaseProperties } from "./general";
@@ -20,6 +21,13 @@ export function createDeleteFlowExecutedEventEntity(
 
   ev.endDate = event.params.endDate;
   ev.userData = event.params.userData;
+
+  const receipt = event.receipt;
+  if (receipt) {
+    ev.gasUsed = receipt.gasUsed;
+  } else {
+      log.critical("receipt MUST NOT be null, set `receipt: true` under `eventHandlers` in the manifest file", []);
+  }
 
   return ev;
 }

@@ -1,3 +1,4 @@
+import { log } from "@graphprotocol/graph-ts";
 import { VestingCliffAndFlowExecutedEvent } from "../types/schema";
 import { VestingCliffAndFlowExecuted } from "../types/VestingScheduler/VestingScheduler";
 import { createEventID, setBaseProperties } from "./general";
@@ -21,6 +22,13 @@ export function createVestingCliffAndFlowExecutedEntity(
   ev.flowRate = event.params.flowRate;
   ev.cliffAmount = event.params.cliffAmount;
   ev.flowDelayCompensation = event.params.flowDelayCompensation;
+
+  const receipt = event.receipt;
+  if (receipt) {
+    ev.gasUsed = receipt.gasUsed;
+  } else {
+      log.critical("receipt MUST NOT be null, set `receipt: true` under `eventHandlers` in the manifest file", []);
+  }
 
   return ev;
 }

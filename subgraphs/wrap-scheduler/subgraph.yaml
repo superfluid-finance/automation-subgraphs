@@ -33,6 +33,7 @@ dataSources:
                 handler: handleWrapScheduleDeleted
               - event: WrapExecuted(indexed bytes32,uint256)
                 handler: handleWrapExecuted
+                receipt: true
               # - event: AddedApprovedStrategy(indexed address)
               #   handler: handleAddedApprovedStrategy
               # - event: RemovedApprovedStrategy(indexed address)

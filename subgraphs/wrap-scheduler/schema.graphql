@@ -100,6 +100,7 @@ type WrapExecutedEvent implements Event @entity(immutable: true) {
   timestamp: BigInt!
   transactionHash: Bytes!
   gasPrice: BigInt!
+  gasUsed: BigInt!
 
   # WrapExecutedEvent Specific Properties #
   amount: BigInt!

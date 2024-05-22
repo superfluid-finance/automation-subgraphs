@@ -9,7 +9,6 @@ export function createAddedApprovedStrategyEventEntity(
       createEventID("AddedApprovedStrategy", event)
     );
     
-    
     ev = setBaseProperties("AddedApprovedStrategy", event, ev, [
         ev.strategy
     ]) as AddedApprovedStrategyEvent;

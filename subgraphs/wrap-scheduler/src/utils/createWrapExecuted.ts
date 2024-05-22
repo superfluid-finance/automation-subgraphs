@@ -1,7 +1,8 @@
 import { log } from "@graphprotocol/graph-ts";
-import { WrapExecutedEvent } from "../types/schema";
+import { UserTokenLiquidityToken, WrapExecutedEvent, WrapSchedule } from "../types/schema";
 import { WrapExecuted } from "../types/WrapScheduler/WrapManager";
 import { createEventID, setBaseProperties } from "./general";
+import { getWrapSchedule } from "./wrapSchedule";
 
 export function createWrapExecutedEventEntity(
   event: WrapExecuted
@@ -9,12 +10,18 @@ export function createWrapExecutedEventEntity(
   let ev = new WrapExecutedEvent(
     createEventID("WrapExecuted", event)
   );
-  
-  ev = setBaseProperties("WrapExecuted", event, ev, [
-    event.params.id,
-  ]) as WrapExecutedEvent;
 
   ev.wrapScheduleId = event.params.id;
+  const cursor = UserTokenLiquidityToken.load(ev.wrapScheduleId.toString());
+  const wrapSchedule = getWrapSchedule(cursor)!;
+  
+  ev = setBaseProperties("WrapExecuted", event, ev, [
+    wrapSchedule.strategy,
+    wrapSchedule.account,
+    wrapSchedule.superToken,
+    wrapSchedule.liquidityToken,
+  ]) as WrapExecutedEvent;
+
   ev.amount = event.params.wrapAmount;
 
   const receipt = event.receipt;

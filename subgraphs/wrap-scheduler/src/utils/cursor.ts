@@ -1,7 +1,6 @@
 import { Bytes } from "@graphprotocol/graph-ts";
 import { UserTokenLiquidityToken } from "../types/schema";
 
-
 export function getOrCreateUserTokenLiquidityTokenCursor(
   wrapScheduleId: Bytes
 ): UserTokenLiquidityToken {

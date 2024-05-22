@@ -17,7 +17,7 @@ import {
 
 import {
     getOrCreateUserTokenLiquidityTokenCursor as getOrCreateUserTokenLiquidityTokenCursor
-} from "../utils/tokenSenderReceiverCursor";
+} from "../utils/cursor";
 import {
     createWrapSchedule,
     getWrapSchedule,

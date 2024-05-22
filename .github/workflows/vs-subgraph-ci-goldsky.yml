@@ -60,5 +60,15 @@ jobs:
       - name: Goldsky Deploy
         run: pnpm exec goldsky subgraph deploy ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build
         continue-on-error: true # We still want to tag the latest deployment if it was already deployed.
+      - name: Check Subgraph Status
+        id: check-status
+        run: |
+          STATUS=$(pnpm exec goldsky subgraph list ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} | grep "Status: healthy")
+          if [ $? -eq 0 ]; then
+            echo "::set-output name=status::healthy"
+          else
+            echo "::set-output name=status::other"
+          fi
       - name: Goldsky Tag
+        if: steps.check-status.outputs.status == 'healthy'
         run: pnpm exec goldsky subgraph tag create ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag prod

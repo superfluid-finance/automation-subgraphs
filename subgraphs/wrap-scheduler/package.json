@@ -1,6 +1,6 @@
 {
   "name": "wrap-scheduler-subgraph",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A subgraph for the auto-wrap scheduler contracts",
   "keywords": [
     "subgraph"

@@ -9,6 +9,7 @@ export function createWrapScheduleCreatedEventEntity(
     createEventID("WrapScheduleCreated", event)
   );
 
+  ev.wrapScheduleId = event.params.id;
   ev = setBaseProperties("WrapScheduleCreatedEvent", event, ev, [
     event.params.strategy,
     event.params.user,

@@ -1,5 +1,6 @@
-import {  UserTokenLiquidityToken, WrapScheduleDeletedEvent } from "../types/schema";
+import {  WrapScheduleDeletedEvent } from "../types/schema";
 import { WrapScheduleDeleted } from "../types/WrapScheduler/WrapManager";
+import { getOrCreateUserTokenLiquidityTokenCursor } from "./cursor";
 import { createEventID, setBaseProperties } from "./general";
 import { getWrapSchedule } from "./wrapSchedule";
 
@@ -11,7 +12,9 @@ export function createWrapScheduleDeletedEventEntity(
   );
 
   ev.wrapScheduleId = event.params.id;
-  const cursor = UserTokenLiquidityToken.load(ev.wrapScheduleId.toString());
+  const cursor = getOrCreateUserTokenLiquidityTokenCursor(
+      ev.wrapScheduleId
+  );
   const wrapSchedule = getWrapSchedule(cursor)!;
 
   ev = setBaseProperties("WrapScheduleDeletedEvent", event, ev, [

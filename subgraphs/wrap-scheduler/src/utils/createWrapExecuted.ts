@@ -1,8 +1,9 @@
 import { log } from "@graphprotocol/graph-ts";
-import { UserTokenLiquidityToken, WrapExecutedEvent, WrapSchedule } from "../types/schema";
+import { WrapExecutedEvent } from "../types/schema";
 import { WrapExecuted } from "../types/WrapScheduler/WrapManager";
 import { createEventID, setBaseProperties } from "./general";
 import { getWrapSchedule } from "./wrapSchedule";
+import { getOrCreateUserTokenLiquidityTokenCursor } from "./cursor";
 
 export function createWrapExecutedEventEntity(
   event: WrapExecuted
@@ -12,7 +13,9 @@ export function createWrapExecutedEventEntity(
   );
 
   ev.wrapScheduleId = event.params.id;
-  const cursor = UserTokenLiquidityToken.load(ev.wrapScheduleId.toString());
+  const cursor = getOrCreateUserTokenLiquidityTokenCursor(
+      ev.wrapScheduleId
+  );
   const wrapSchedule = getWrapSchedule(cursor)!;
   
   ev = setBaseProperties("WrapExecuted", event, ev, [

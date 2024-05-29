@@ -118,6 +118,7 @@ type VestingScheduleCreatedEvent implements Event @entity(immutable: true) {
   sender: Bytes!
   receiver: Bytes!
   startDate: BigInt!
+  claimValidityDate: BigInt!
   cliffDate: BigInt!
   flowRate: BigInt!
   endDate: BigInt!
@@ -185,6 +186,7 @@ type VestingSchedule @entity {
   receiver: Bytes!
   startDate: BigInt!
   endDate: BigInt!
+  claimValidityDate: BigInt!
   cliffDate: BigInt
   cliffAndFlowDate: BigInt!
   cliffAmount: BigInt!

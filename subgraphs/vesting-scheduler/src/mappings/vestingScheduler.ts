@@ -1,3 +1,4 @@
+import { BigInt } from '@graphprotocol/graph-ts';
 import { Task } from "../types/schema";
 import {
   VestingCliffAndFlowExecuted,
@@ -105,15 +106,21 @@ function _handleVestingScheduleCreated(
     contractVersion
   );
 
-  const cliffAndFlowTask = createTask(
-    currentVestingSchedule,
-    "ExecuteCliffAndFlow",
-    event.transaction.hash.toHexString(),
-    event.logIndex,
-    contractVersion
-  );
-
-  const endVestingTask = createTask(
+  if(ev.claimValidityDate == BigInt.fromI32(0)){
+    const cliffAndFlowTask = createTask(
+      currentVestingSchedule,
+      "ExecuteCliffAndFlow",
+      event.transaction.hash.toHexString(),
+      event.logIndex,
+      contractVersion
+    );
+    cursor.currentCliffAndFlowTask = cliffAndFlowTask.id;
+    cliffAndFlowTask.save();
+  } else {
+    cursor.currentCliffAndFlowTask = null;
+  }
+    
+    const endVestingTask = createTask(
     currentVestingSchedule,
     "ExecuteEndVesting",
     event.transaction.hash.toHexString(),
@@ -122,12 +129,10 @@ function _handleVestingScheduleCreated(
   );
 
   cursor.currentVestingSchedule = currentVestingSchedule.id;
-  cursor.currentCliffAndFlowTask = cliffAndFlowTask.id;
   cursor.currentEndVestingTask = endVestingTask.id;
 
   currentVestingSchedule.save();
   cursor.save();
-  cliffAndFlowTask.save();
   endVestingTask.save();
 }
 

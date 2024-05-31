@@ -20,6 +20,7 @@ export function createVestingScheduleCreatedEventEntity(
   ev.receiver = event.params.receiver;
 
   ev.startDate = event.params.startDate;
+  ev.claimValidityDate = event.params.claimValidityDate;
   ev.cliffDate = event.params.cliffDate;
   ev.flowRate = event.params.flowRate;
   ev.endDate = event.params.endDate;

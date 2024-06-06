@@ -9,14 +9,14 @@ importers:
   .:
     devDependencies:
       '@goldskycom/cli':
-        specifier: ^8.5.1
-        version: 8.5.1
+        specifier: ^8.7.0
+        version: 8.9.1
       '@graphprotocol/graph-cli':
-        specifier: ^0.68.5
-        version: 0.68.5(@types/node@20.11.28)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.4.2)
+        specifier: ^0.71.0
+        version: 0.71.2(@types/node@20.11.28)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.4.2)
       '@graphprotocol/graph-ts':
-        specifier: ^0.33.0
-        version: 0.33.0
+        specifier: ^0.35.1
+        version: 0.35.1
       '@types/node':
         specifier: ^20.11.28
         version: 20.11.28
@@ -124,17 +124,17 @@ packages:
     resolution: {integrity: sha512-yZ0H5e3EpAYKokX/AbtplzlvSxEJY7ZfpvQyDzyODkks0hakAAlDG6fQu1SlDJMWorY7bbq1j7fCiFeTWci6TA==}
     hasBin: true
 
-  '@goldskycom/cli@8.5.1':
-    resolution: {integrity: sha512-jLXwRh4EFU8KByZnOG3EIuM6E4tbJz7er3XSF0cOIVPZJxOAqIWZuuOZeZpyhUsbvturisumO/GAwUIfOErGCg==}
+  '@goldskycom/cli@8.9.1':
+    resolution: {integrity: sha512-Ks2Z4aCG1r4kMASZZRjm7s1tCIFkOSbp7dqYdqvjTZDZWGicwOQYeSaGgLeam1cC7iOGbYueVMQWVYqoaEiV4w==}
     hasBin: true
 
-  '@graphprotocol/graph-cli@0.68.5':
-    resolution: {integrity: sha512-3GY2pYr5LksO6JY6s5nvePnSKVdtzDEn1CUGezyjCMR1uq9YIXMPXKqcnrzCX/DLugioEabiEi2+yOg9+rnFDQ==}
+  '@graphprotocol/graph-cli@0.71.2':
+    resolution: {integrity: sha512-vTc2LEJMsSxCs9N1ATZuTUONi0H3wuh5o9w60zsNoNASBPtmo8elzgoXcM5ohpyMg+7cXaYaV885rG7bhYwBAQ==}
     engines: {node: '>=18'}
     hasBin: true
 
-  '@graphprotocol/graph-ts@0.33.0':
-    resolution: {integrity: sha512-HBUVblHUdjQZ/MEjjYPzVgmh+SiuF9VV0D8KubYfFAtzkqpVJlvdyk+RZTAJUiu8hpyYy0EVIcAnLEPtKlwMGQ==}
+  '@graphprotocol/graph-ts@0.35.1':
+    resolution: {integrity: sha512-74CfuQmf7JI76/XCC34FTkMMKeaf+3Pn0FIV3m9KNeaOJ+OI3CvjMIVRhOZdKcJxsFCBGaCCl0eQjh47xTjxKA==}
 
   '@ipld/dag-cbor@7.0.3':
     resolution: {integrity: sha512-1VVh2huHsuohdXC1bGJNE8WR72slZ9XE2T3wbBBq31dm7ZBatmKLLxrB+XAqafxfRFjv08RZmj/W/ZqaM13AuA==}
@@ -2308,14 +2308,14 @@ snapshots:
       graphql-import-node: 0.0.5(graphql@16.8.1)
       js-yaml: 4.1.0
 
-  '@goldskycom/cli@8.5.1':
+  '@goldskycom/cli@8.9.1':
     dependencies:
       cuid: 2.1.8
       parse-duration: 1.1.0
       readline-sync: 1.4.10
       timeago.js: 4.0.2
 
-  '@graphprotocol/graph-cli@0.68.5(@types/node@20.11.28)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.4.2)':
+  '@graphprotocol/graph-cli@0.71.2(@types/node@20.11.28)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.4.2)':
     dependencies:
       '@float-capital/float-subgraph-uncrashable': 0.0.0-internal-testing.5
       '@oclif/core': 2.8.6(@types/node@20.11.28)(typescript@5.4.2)
@@ -2355,7 +2355,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@graphprotocol/graph-ts@0.33.0':
+  '@graphprotocol/graph-ts@0.35.1':
     dependencies:
       assemblyscript: 0.19.10
 

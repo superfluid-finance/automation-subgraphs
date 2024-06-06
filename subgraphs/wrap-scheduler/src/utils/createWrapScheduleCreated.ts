@@ -1,4 +1,4 @@
-import {  WrapScheduleCreatedEvent } from "../types/schema";
+import {  WrapSchedule, WrapScheduleCreatedEvent } from "../types/schema";
 import { WrapScheduleCreated } from "../types/WrapScheduler/WrapManager";
 import { createEventID, setBaseProperties } from "./general";
 
@@ -9,14 +9,13 @@ export function createWrapScheduleCreatedEventEntity(
     createEventID("WrapScheduleCreated", event)
   );
 
+  ev.wrapScheduleId = event.params.id;
   ev = setBaseProperties("WrapScheduleCreatedEvent", event, ev, [
-    event.params.id,
+    event.params.strategy,
     event.params.user,
     event.params.superToken,
-    event.params.strategy,
     event.params.liquidityToken,
   ]) as WrapScheduleCreatedEvent;
-
 
   ev.account = event.params.user;
   ev.superToken = event.params.superToken;
@@ -27,7 +26,6 @@ export function createWrapScheduleCreatedEventEntity(
   ev.upperLimit = event.params.upperLimit;
 
   ev.superToken = event.params.superToken;
-  ev.wrapScheduleId  = event.params.id;
   
   return ev;
 }

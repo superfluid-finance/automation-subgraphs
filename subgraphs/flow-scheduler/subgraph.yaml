@@ -28,8 +28,10 @@ dataSources:
               - event: FlowScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,bytes)
                 handler: handleFlowScheduleCreated
               - event: FlowScheduleDeleted(indexed address,indexed address,indexed address)
-                handler: handleFlowScheduleDeleted  
+                handler: handleFlowScheduleDeleted
               - event: CreateFlowExecuted(indexed address,indexed address,indexed address,uint32,uint32,int96,uint256,bytes)
                 handler: handleCreateFlowExecuted
+                receipt: true
               - event: DeleteFlowExecuted(indexed address,indexed address,indexed address,uint32,bytes)
                 handler: handleDeleteFlowExecuted
+                receipt: true

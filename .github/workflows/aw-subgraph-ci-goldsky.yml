@@ -1,4 +1,4 @@
-name: Deploy Superfluid WrapScheduler Subgraphs
+name: Deploy WrapScheduler Subgraphs (Goldsky)
 
 on:
   workflow_dispatch:
@@ -15,6 +15,7 @@ jobs:
       run:
         working-directory: subgraphs/wrap-scheduler
     strategy:
+      fail-fast: false
       matrix:
         networks:
           [
@@ -25,14 +26,16 @@ jobs:
             "xdai-mainnet",
             "optimism-mainnet",
             "polygon-mainnet",
+            "optimism-sepolia",
+            "base-mainnet"
           ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - uses: pnpm/action-setup@v2
+          node-version: 20
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - name: Install
@@ -52,7 +55,20 @@ jobs:
             const fs = require('fs');
             const packageJson = JSON.parse(fs.readFileSync('package.json'));
             return packageJson.version;
+      - name: Goldsky Login
+        run: pnpm exec goldsky login --token ${{secrets.GOLDSKY_API_KEY}}
       - name: Goldsky Deploy
-        run: pnpm exec goldsky subgraph deploy ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build --token ${{secrets.GOLDSKY_API_KEY}}
+        run: pnpm exec goldsky subgraph deploy ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --path ./build
+        continue-on-error: true # We still want to tag the latest deployment if it was already deployed.
+      - name: Check Subgraph Sync Status
+        id: check-sync
+        run: |
+          SYNC=$(pnpm exec goldsky subgraph list ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} | grep "Synced:" | awk '{print $2}' | cut -d'%' -f1)
+          if (( $(echo "$SYNC > 98" | bc -l) )); then
+            echo "::set-output name=sync::true"
+          else
+            echo "::set-output name=sync::false"
+          fi
       - name: Goldsky Tag
-        run: pnpm exec goldsky subgraph tag ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag latest --token ${{secrets.GOLDSKY_API_KEY}}
+        if: steps.check-sync.outputs.sync == 'true'
+        run: pnpm exec goldsky subgraph tag create ${{format('auto-wrap-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --tag prod

@@ -1,0 +1,5 @@
+{
+  "network": "base",
+  "vestingSchedulerAddress": "0xDF92D0E6Bcb9385FDe99aD21Ff5e47Fb47E3c6b2",
+  "vestingSchedulerStartBlock": 13848269
+}

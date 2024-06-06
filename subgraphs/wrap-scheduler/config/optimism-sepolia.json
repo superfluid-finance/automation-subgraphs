@@ -1,5 +1,5 @@
 {
-  "network": "optimism",
+  "network": "optimism-sepolia",
   "wrapManagerAddress": "0xe567b32C10B0dB72d9490eB1B9A409C5ADed192C",
   "wrapManagerStartBlock": 11311085
 }

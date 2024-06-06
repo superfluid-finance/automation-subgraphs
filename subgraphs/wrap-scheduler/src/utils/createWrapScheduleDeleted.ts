@@ -1,6 +1,8 @@
 import {  WrapScheduleDeletedEvent } from "../types/schema";
 import { WrapScheduleDeleted } from "../types/WrapScheduler/WrapManager";
+import { getOrCreateUserTokenLiquidityTokenCursor } from "./cursor";
 import { createEventID, setBaseProperties } from "./general";
+import { getWrapSchedule } from "./wrapSchedule";
 
 export function createWrapScheduleDeletedEventEntity(
   event: WrapScheduleDeleted
@@ -9,18 +11,23 @@ export function createWrapScheduleDeletedEventEntity(
     createEventID("WrapScheduleDeletedEvent", event)
   );
 
+  ev.wrapScheduleId = event.params.id;
+  const cursor = getOrCreateUserTokenLiquidityTokenCursor(
+      ev.wrapScheduleId
+  );
+  const wrapSchedule = getWrapSchedule(cursor)!;
+
   ev = setBaseProperties("WrapScheduleDeletedEvent", event, ev, [
-    event.params.id,
-    event.params.liquidityToken,
-    event.params.strategy,
-    event.params.superToken,
-    event.params.user,
+    wrapSchedule.strategy,
+    wrapSchedule.account,
+    wrapSchedule.superToken,
+    wrapSchedule.liquidityToken,
   ]) as WrapScheduleDeletedEvent;
 
   ev.liquidityToken = event.params.liquidityToken;
   ev.strategy = event.params.strategy;
   ev.superToken = event.params.superToken;
   ev.account = event.params.user;
-  ev.wrapScheduleId = event.params.id;
+
   return ev;
 }

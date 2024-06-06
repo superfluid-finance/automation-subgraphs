@@ -1,5 +1,5 @@
 {
   "network": "mumbai",
-  "wrapSchedulerAddress": "0x3eAB3c6207F488E475b7955B631B564F0E6317B9",
-  "wrapSchedulerStartBlock": 29624102
+  "wrapManagerAddress": "0x3eAB3c6207F488E475b7955B631B564F0E6317B9",
+  "wrapManagerStartBlock": 29624102
 }

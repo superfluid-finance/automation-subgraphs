@@ -1,5 +1,5 @@
 {
   "network": "optimism-sepolia",
-  "vestingSchedulerAddress_v2": "0x215B55D47583EaAC93cDc9316afeDE059674FCd2",
-  "vestingSchedulerStartBlock_v2": 12676773
+  "vestingSchedulerAddress_v2": "0x48933d146a446969B54FEd588F8e7ACfda227AEA",
+  "vestingSchedulerStartBlock_v2": 12902211
 }

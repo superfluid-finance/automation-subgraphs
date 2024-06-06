@@ -8,11 +8,11 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./polygon-mumbai.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-polygon-mumbai/1.1.0 --path ./build",
+    "build": "graph build ./optimism-sepolia.subgraph.yaml",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.1.1 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
-    "gen:types": "graph codegen ./polygon-mumbai.subgraph.yaml --output-dir src/types/",
+    "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",
     "gen:yaml": "ts-node ./scripts/generate-yamls.ts",
     "test": "graph test"
   },

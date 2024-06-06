@@ -8,11 +8,11 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./eth-mainnet.subgraph.yaml",
-    "deploy:test": "graph deploy --product hosted-service msoni89/auto-wrap-v1-mumbai-test polygon-mumbai.subgraph.yaml",
+    "build": "graph build ./optimism-sepolia.subgraph.yaml",
+    "deploy:test": "graph deploy --product hosted-service msoni89/auto-wrap-v1-optimism-sepolia optimism-sepolia.subgraph.yaml",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
-    "gen:types": "graph codegen ./eth-mainnet.subgraph.yaml --output-dir src/types/",
+    "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",
     "gen:yaml": "ts-node ./scripts/generate-yamls.ts",
     "test": "echo 'no graph test yet'"
   },

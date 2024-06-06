@@ -1,5 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts';
-import { Task } from "../types/schema";
+import { BigInt, ethereum } from '@graphprotocol/graph-ts';
+import { Task, VestingScheduleCreatedEvent } from "../types/schema";
 import {
   VestingCliffAndFlowExecuted,
   VestingEndExecuted,
@@ -9,12 +9,13 @@ import {
   VestingScheduler,
   VestingScheduleUpdated,
 } from "../types/VestingScheduler/VestingScheduler";
+import { VestingScheduleCreated as VestingScheduleCreated_v2 } from "../types/VestingScheduler_v2/VestingScheduler";
 import { createTask } from "../utils/createTask";
 import { createVestingCliffAndFlowExecutedEntity } from "../utils/createVestingCliffAndFlowExecuted";
 import { createVestingEndExecutedEventEntity } from "../utils/createVestingEndExecuted";
 import { createVestingEndFailedEventEntity } from "../utils/createVestingEndFailed";
 
-import { createVestingScheduleCreatedEventEntity } from "../utils/createVestingScheduleCreated";
+import { createVestingScheduleCreatedEventEntity_v1, createVestingScheduleCreatedEventEntity_v2 } from "../utils/createVestingScheduleCreated";
 import { createVestingScheduleDeletedEventEntity } from "../utils/createVestingScheduleDeleted";
 import { createVestingUpdatedEntity } from "../utils/createVestingScheduleUpdated";
 
@@ -78,35 +79,39 @@ function _handleVestingCliffAndFlowExecuted(
 export function handleVestingScheduleCreated_v1(
   event: VestingScheduleCreated
 ): void {
-  _handleVestingScheduleCreated(event, "v1");
+  const storedEvent = createVestingScheduleCreatedEventEntity_v1(event);
+  storedEvent.save();
+
+  _handleVestingScheduleCreated(event, storedEvent,  "v1");
 }
 
 export function handleVestingScheduleCreated_v2(
-  event: VestingScheduleCreated
+  event: VestingScheduleCreated_v2
 ): void {
-  _handleVestingScheduleCreated(event, "v2");
+  const storedEvent = createVestingScheduleCreatedEventEntity_v2(event);
+  storedEvent.save();
+
+  _handleVestingScheduleCreated(event, storedEvent, "v2");
 }
 
 function _handleVestingScheduleCreated(
-  event: VestingScheduleCreated,
+  event: ethereum.Event,
+  storedEvent: VestingScheduleCreatedEvent,
   contractVersion: string
 ): void {
-  const ev = createVestingScheduleCreatedEventEntity(event, contractVersion);
-  ev.save();
-
   const currentVestingSchedule = createVestingSchedule(
-    ev,
+    storedEvent,
     event.address,
     contractVersion
   );
   const cursor = getOrCreateTokenSenderReceiverCursor(
-    ev.superToken,
-    ev.sender,
-    ev.receiver,
+    storedEvent.superToken,
+    storedEvent.sender,
+    storedEvent.receiver,
     contractVersion
   );
 
-  if(ev.claimValidityDate == BigInt.fromI32(0)){
+  if(storedEvent.claimValidityDate == BigInt.fromI32(0)){
     const cliffAndFlowTask = createTask(
       currentVestingSchedule,
       "ExecuteCliffAndFlow",

@@ -1,7 +1,0 @@
-{
-  "network": "mumbai",
-  "vestingSchedulerAddress": "0x3962EE56c9f7176215D149938BA685F91aBB633B",
-  "vestingSchedulerStartBlock": 33383487,
-  "vestingSchedulerAddress_v2": "0x445A26833794d8086A758D8BE330a5e563B2D857",
-  "vestingSchedulerStartBlock_v2": 47575659
-}

@@ -11,5 +11,8 @@ Superfluid Automation Subgraphs index the [peripheral Superfluid automation cont
 - Inspect the source code in the [protocol-monorepo](https://github.com/superfluid-finance/protocol-monorepo/tree/dev/packages/automation-contracts)
 - Find the deployment addresses programmatically from [@superfluid-finance/metadata](https://github.com/superfluid-finance/protocol-monorepo/tree/dev/packages/metadata)
 
+## Other
+The Graph Supported Networks CLI names: https://thegraph.com/docs/en/developing/supported-networks/
+
 ## License
 The Superfluid Automation Subgraphs are [MIT licensed](./LICENSE).

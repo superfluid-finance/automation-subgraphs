@@ -9,8 +9,8 @@ dataSources:
       network: {{ network }}
       source:
           abi: WrapManager
-          address: "{{wrapSchedulerAddress}}"
-          startBlock: {{wrapSchedulerStartBlock}}
+          address: "{{wrapManagerAddress}}"
+          startBlock: {{wrapManagerStartBlock}}
       mapping:
           kind: ethereum/events
           apiVersion: 0.0.7
@@ -33,6 +33,7 @@ dataSources:
                 handler: handleWrapScheduleDeleted
               - event: WrapExecuted(indexed bytes32,uint256)
                 handler: handleWrapExecuted
+                receipt: true
               # - event: AddedApprovedStrategy(indexed address)
               #   handler: handleAddedApprovedStrategy
               # - event: RemovedApprovedStrategy(indexed address)

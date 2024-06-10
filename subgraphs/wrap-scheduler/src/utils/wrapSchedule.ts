@@ -18,6 +18,7 @@ export function createWrapSchedule(
   const id = getWrapScheduleId(ev.transactionHash, ev.logIndex);
 
   let wrapSchedule = new WrapSchedule(id);
+
   wrapSchedule.createdAt = ev.timestamp;
   wrapSchedule.createdBlockNumber = ev.blockNumber;
   wrapSchedule.updatedAt = ev.timestamp;
@@ -36,6 +37,7 @@ export function createWrapSchedule(
   wrapSchedule.amount = BigInt.zero();
   wrapSchedule.events = [ev.id];
   wrapSchedule.wrapScheduleId = ev.wrapScheduleId;
+  
   return wrapSchedule;
 }
 

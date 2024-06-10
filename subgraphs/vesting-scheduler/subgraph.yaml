@@ -30,8 +30,10 @@ dataSources:
       eventHandlers:
         - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
           handler: handleVestingCliffAndFlowExecuted_v1
+          receipt: true
         - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
           handler: handleVestingEndExecuted_v1
+          receipt: true
         - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256)
           handler: handleVestingScheduleCreated_v1
         - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
@@ -67,9 +69,10 @@ dataSources:
       eventHandlers:
         - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
           handler: handleVestingCliffAndFlowExecuted_v2
+          receipt: true
         - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
           handler: handleVestingEndExecuted_v2
-        - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,uint256)
+        - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,uint32,uint256)
           handler: handleVestingScheduleCreated_v2
         - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
           handler: handleVestingScheduleDeleted_v2
@@ -77,4 +80,5 @@ dataSources:
           handler: handleVestingScheduleUpdated_v2
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
           handler: handleVestingEndFailed_v2
+          receipt: true
   {{/vestingSchedulerAddress_v2}}

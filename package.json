@@ -1,6 +1,6 @@
 {
   "name": "@superfluid-finance/automation-subgraphs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "keywords": [],
   "license": "MIT",
@@ -11,6 +11,6 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "@goldskycom/cli": "^8.5.1"
+    "@goldskycom/cli": "^8.7.0"
   }
 }

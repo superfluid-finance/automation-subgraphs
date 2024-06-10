@@ -25,6 +25,7 @@ export function createVestingSchedule(
   vestingSchedule.sender = ev.sender;
   vestingSchedule.receiver = ev.receiver;
   vestingSchedule.startDate = ev.startDate;
+  vestingSchedule.claimValidityDate = ev.claimValidityDate;
   vestingSchedule.endDate = ev.endDate;
   vestingSchedule.cliffDate =
     ev.cliffDate != BigInt.zero() ? ev.cliffDate : null;

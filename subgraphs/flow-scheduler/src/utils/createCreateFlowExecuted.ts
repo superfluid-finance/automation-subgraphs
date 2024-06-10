@@ -1,3 +1,4 @@
+import { log } from "@graphprotocol/graph-ts";
 import { CreateFlowExecuted } from "../types/FlowScheduler/FlowScheduler";
 import { CreateFlowExecutedEvent } from "../types/schema";
 import { createEventID, setBaseProperties } from "./general";
@@ -23,6 +24,13 @@ export function createCreateFlowExecutedEventEntity(
   ev.flowRate = event.params.flowRate;
   ev.startAmount = event.params.startAmount;
   ev.userData = event.params.userData;
+
+  const receipt = event.receipt;
+  if (receipt) {
+    ev.gasUsed = receipt.gasUsed;
+  } else {
+      log.critical("receipt MUST NOT be null, set `receipt: true` under `eventHandlers` in the manifest file", []);
+  }
 
   return ev;
 }

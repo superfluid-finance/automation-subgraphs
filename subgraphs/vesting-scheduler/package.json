@@ -1,6 +1,6 @@
 {
   "name": "vesting-scheduler-subgraph",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A subgraph for the vesting scheduler contracts",
   "keywords": [
     "subgraph"
@@ -8,18 +8,18 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./polygon-mumbai.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-polygon-mumbai/1.1.0 --path ./build",
+    "build": "graph build ./optimism-sepolia.subgraph.yaml",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.1.1 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
-    "gen:types": "graph codegen ./polygon-mumbai.subgraph.yaml --output-dir src/types/",
+    "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",
     "gen:yaml": "ts-node ./scripts/generate-yamls.ts",
     "test": "graph test"
   },
   "devDependencies": {
-    "@goldskycom/cli": "^8.5.1",
-    "@graphprotocol/graph-cli": "^0.68.5",
-    "@graphprotocol/graph-ts": "^0.33.0",
+    "@goldskycom/cli": "^8.7.0",
+    "@graphprotocol/graph-cli": "^0.71.0",
+    "@graphprotocol/graph-ts": "^0.35.1",
     "@types/node": "^20.11.28",
     "assemblyscript": "0.19.23",
     "assemblyscript-json": "^1.1.0",

@@ -236,10 +236,11 @@ function _handleVestingScheduleUpdated(
 
   if (currentVestingSchedule) {
     currentVestingSchedule.endDate = ev.endDate;
+    currentVestingSchedule.remainderAmount = BigInt.fromI32(0);
 
     let events = currentVestingSchedule.events;
     events.push(ev.id);
-    currentVestingSchedule.events = events;
+    currentVestingSchedule.events = events
 
     const task = Task.load(cursor.currentEndVestingTask!);
 

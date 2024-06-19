@@ -27,6 +27,7 @@ export function createVestingScheduleCreatedEventEntity_v2(
   ev.cliffAmount = event.params.cliffAmount;
   
   ev.claimValidityDate = event.params.claimValidityDate;
+  ev.remainderAmount = event.params.remainderAmount;
 
   return ev;
 }
@@ -54,6 +55,7 @@ export function createVestingScheduleCreatedEventEntity_v1(
   ev.cliffAmount = event.params.cliffAmount;
   
   ev.claimValidityDate = BigInt.fromI32(0);
+  ev.remainderAmount = BigInt.fromI32(0);
 
   return ev;
 }

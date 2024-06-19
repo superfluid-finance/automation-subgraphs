@@ -121,12 +121,14 @@ type VestingScheduleCreatedEvent implements Event @entity(immutable: true) {
   sender: Bytes!
   receiver: Bytes!
   startDate: BigInt!
-  claimValidityDate: BigInt!
   cliffDate: BigInt!
   flowRate: BigInt!
   endDate: BigInt!
   cliffAmount: BigInt!
-  # remainderAmount: BigInt!
+
+  # V2 properties
+  claimValidityDate: BigInt!
+  remainderAmount: BigInt!
 }
 
 type VestingScheduleDeletedEvent implements Event @entity(immutable: true) {
@@ -189,14 +191,12 @@ type VestingSchedule @entity {
   receiver: Bytes!
   startDate: BigInt!
   endDate: BigInt!
-  claimValidityDate: BigInt!
   cliffDate: BigInt
   cliffAndFlowDate: BigInt!
   cliffAmount: BigInt!
   flowRate: BigInt!
   didEarlyEndCompensationFail: Boolean
   earlyEndCompensation: BigInt
-  # remainderAmount: BigInt!
   cliffAndFlowExpirationAt: BigInt!
   endDateValidAt: BigInt!
   deletedAt: BigInt
@@ -205,6 +205,10 @@ type VestingSchedule @entity {
   endExecutedAt: BigInt
   tasks: [Task!]! @derivedFrom(field: "vestingSchedule")
   events: [Event!]!
+
+  # V2 properties
+  claimValidityDate: BigInt!
+  remainderAmount: BigInt!
 }
 
 type TokenSenderReceiverCursor @entity {

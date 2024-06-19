@@ -25,7 +25,6 @@ export function createVestingSchedule(
   vestingSchedule.sender = ev.sender;
   vestingSchedule.receiver = ev.receiver;
   vestingSchedule.startDate = ev.startDate;
-  vestingSchedule.claimValidityDate = ev.claimValidityDate;
   vestingSchedule.endDate = ev.endDate;
   vestingSchedule.cliffDate =
     ev.cliffDate != BigInt.zero() ? ev.cliffDate : null;
@@ -37,6 +36,9 @@ export function createVestingSchedule(
     vestingSchedule.cliffAndFlowDate.plus(startValidAfterSeconds);
   vestingSchedule.endDateValidAt = ev.endDate.minus(endValidBeforeSeconds);
   vestingSchedule.events = [ev.id];
+
+  vestingSchedule.claimValidityDate = ev.claimValidityDate;
+  vestingSchedule.remainderAmount = ev.remainderAmount;
 
   return vestingSchedule;
 }

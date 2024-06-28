@@ -6,8 +6,11 @@ import {
   VestingEndFailed,
   VestingScheduleCreated,
   VestingScheduleDeleted,
-  VestingScheduleUpdated,
+  VestingScheduleUpdated
 } from "../src/types/VestingScheduler/VestingScheduler";
+import {
+  VestingClaimed
+} from "../src/types/VestingScheduler_v2/VestingScheduler";
 import {
   getAddressEventParam,
   getBigIntEventParam,
@@ -22,7 +25,9 @@ export function createNewCreateVestingScheduleEvent(
   cliffDate: BigInt,
   flowRate: BigInt,
   endDate: BigInt,
-  cliffAmount: BigInt
+  cliffAmount: BigInt,
+  // claimValidityDate: BigInt = BigInt.fromI32(0),
+  // remainderAmount: BigInt = BigInt.fromI32(0)
 ): VestingScheduleCreated {
   const event = changetype<VestingScheduleCreated>(newMockEvent());
   event.parameters = new Array();
@@ -34,6 +39,8 @@ export function createNewCreateVestingScheduleEvent(
   event.parameters.push(getBigIntEventParam("flowRate", flowRate));
   event.parameters.push(getBigIntEventParam("cliffAmount", cliffAmount));
   event.parameters.push(getBigIntEventParam("endDate", endDate));
+  // event.parameters.push(getBigIntEventParam("claimValidityDate", claimValidityDate));
+  // event.parameters.push(getBigIntEventParam("remainderAmount", remainderAmount));
 
   return event;
 }
@@ -123,7 +130,8 @@ export function createNewVestingScheduleUpdatedEvent(
   sender: string,
   receiver: string,
   oldEndDate: BigInt,
-  endDate: BigInt
+  endDate: BigInt,
+  // remainderAmount: BigInt
 ): VestingScheduleUpdated {
   const event = changetype<VestingScheduleUpdated>(newMockEvent());
   event.parameters = new Array();
@@ -132,24 +140,23 @@ export function createNewVestingScheduleUpdatedEvent(
   event.parameters.push(getAddressEventParam("receiver", receiver));
   event.parameters.push(getBigIntEventParam("oldEndDate", oldEndDate));
   event.parameters.push(getBigIntEventParam("endDate", endDate));
+  // event.parameters.push(getBigIntEventParam("remainderAmount", remainderAmount));
 
   return event;
 }
 
-export function createNewVestingSchedule(
+export function createNewVestingClaimedEvent(
   superToken: string,
   sender: string,
   receiver: string,
-  oldEndDate: BigInt,
-  endDate: BigInt
-): VestingScheduleUpdated {
-  const event = changetype<VestingScheduleUpdated>(newMockEvent());
+  claimer: string
+): VestingClaimed {
+  const event = changetype<VestingClaimed>(newMockEvent());
   event.parameters = new Array();
   event.parameters.push(getAddressEventParam("superToken", superToken));
   event.parameters.push(getAddressEventParam("sender", sender));
   event.parameters.push(getAddressEventParam("receiver", receiver));
-  event.parameters.push(getBigIntEventParam("oldEndDate", oldEndDate));
-  event.parameters.push(getBigIntEventParam("endDate", endDate));
+  event.parameters.push(getAddressEventParam("claimer", claimer));
 
   return event;
 }

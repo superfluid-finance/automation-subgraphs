@@ -1,5 +1,9 @@
-import { BigInt, ethereum } from '@graphprotocol/graph-ts';
-import { Task, VestingScheduleCreatedEvent } from "../types/schema";
+import { BigInt, ethereum } from "@graphprotocol/graph-ts";
+import {
+  Task,
+  VestingScheduleCreatedEvent,
+  VestingScheduleUpdatedEvent,
+} from "../types/schema";
 import {
   VestingCliffAndFlowExecuted,
   VestingEndExecuted,
@@ -9,21 +13,32 @@ import {
   VestingScheduler,
   VestingScheduleUpdated,
 } from "../types/VestingScheduler/VestingScheduler";
-import { VestingScheduleCreated as VestingScheduleCreated_v2 } from "../types/VestingScheduler_v2/VestingScheduler";
+import {
+  VestingClaimed,
+  VestingScheduleCreated as VestingScheduleCreated_v2,
+  VestingScheduleUpdated as VestingScheduleUpdated_v2,
+} from "../types/VestingScheduler_v2/VestingScheduler";
 import { createTask } from "../utils/createTask";
 import { createVestingCliffAndFlowExecutedEntity } from "../utils/createVestingCliffAndFlowExecuted";
 import { createVestingEndExecutedEventEntity } from "../utils/createVestingEndExecuted";
 import { createVestingEndFailedEventEntity } from "../utils/createVestingEndFailed";
 
-import { createVestingScheduleCreatedEventEntity_v1, createVestingScheduleCreatedEventEntity_v2 } from "../utils/createVestingScheduleCreated";
+import {
+  createVestingScheduleCreatedEventEntity_v1,
+  createVestingScheduleCreatedEventEntity_v2,
+} from "../utils/createVestingScheduleCreated";
 import { createVestingScheduleDeletedEventEntity } from "../utils/createVestingScheduleDeleted";
-import { createVestingUpdatedEntity } from "../utils/createVestingScheduleUpdated";
+import {
+  createVestingUpdatedEntity_v1,
+  createVestingUpdatedEntity_v2,
+} from "../utils/createVestingScheduleUpdated";
 
 import { getOrCreateTokenSenderReceiverCursor } from "../utils/tokenSenderReceiverCursor";
 import {
   createVestingSchedule,
   getVestingSchedule,
 } from "../utils/vestingSchedule";
+import { createVestingClaimedEventEntity } from "../utils/createVestingClaimed";
 
 export function handleVestingCliffAndFlowExecuted_v1(
   event: VestingCliffAndFlowExecuted
@@ -82,7 +97,7 @@ export function handleVestingScheduleCreated_v1(
   const storedEvent = createVestingScheduleCreatedEventEntity_v1(event);
   storedEvent.save();
 
-  _handleVestingScheduleCreated(event, storedEvent,  "v1");
+  _handleVestingScheduleCreated(event, storedEvent, "v1");
 }
 
 export function handleVestingScheduleCreated_v2(
@@ -111,7 +126,7 @@ function _handleVestingScheduleCreated(
     contractVersion
   );
 
-  if(storedEvent.claimValidityDate == BigInt.fromI32(0)){
+  if (storedEvent.claimValidityDate == BigInt.fromI32(0)) {
     const cliffAndFlowTask = createTask(
       currentVestingSchedule,
       "ExecuteCliffAndFlow",
@@ -124,8 +139,8 @@ function _handleVestingScheduleCreated(
   } else {
     cursor.currentCliffAndFlowTask = null;
   }
-    
-    const endVestingTask = createTask(
+
+  const endVestingTask = createTask(
     currentVestingSchedule,
     "ExecuteEndVesting",
     event.transaction.hash.toHexString(),
@@ -206,46 +221,50 @@ function _handleVestingScheduleDeleted(
 export function handleVestingScheduleUpdated_v1(
   event: VestingScheduleUpdated
 ): void {
-  _handleVestingScheduleUpdated(event, "v1");
+  const storedEvent = createVestingUpdatedEntity_v1(event, "v1");
+  storedEvent.save();
+
+  _handleVestingScheduleUpdated(event, storedEvent, "v1");
 }
 
 export function handleVestingScheduleUpdated_v2(
-  event: VestingScheduleUpdated
+  event: VestingScheduleUpdated_v2
 ): void {
-  _handleVestingScheduleUpdated(event, "v2");
+  const storedEvent = createVestingUpdatedEntity_v2(event, "v2");
+  storedEvent.save();
+
+  _handleVestingScheduleUpdated(event, storedEvent, "v2");
 }
 
 function _handleVestingScheduleUpdated(
-  event: VestingScheduleUpdated,
+  event: ethereum.Event,
+  storedEvent: VestingScheduleUpdatedEvent,
   contractVersion: string
 ): void {
-  const ev = createVestingUpdatedEntity(event, contractVersion);
-  ev.save();
-
   const vestingScheduler = VestingScheduler.bind(event.address);
   const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
-    ev.superToken,
-    ev.sender,
-    ev.receiver,
+    storedEvent.superToken,
+    storedEvent.sender,
+    storedEvent.receiver,
     contractVersion
   );
 
   const currentVestingSchedule = getVestingSchedule(cursor);
 
   if (currentVestingSchedule) {
-    currentVestingSchedule.endDate = ev.endDate;
+    currentVestingSchedule.endDate = storedEvent.endDate;
     currentVestingSchedule.remainderAmount = BigInt.fromI32(0);
 
     let events = currentVestingSchedule.events;
-    events.push(ev.id);
-    currentVestingSchedule.events = events
+    events.push(storedEvent.id);
+    currentVestingSchedule.events = events;
 
     const task = Task.load(cursor.currentEndVestingTask!);
 
     if (task) {
-      task.executionAt = ev.endDate.minus(endValidBeforeSeconds);
+      task.executionAt = storedEvent.endDate.minus(endValidBeforeSeconds);
       task.save();
     }
 
@@ -346,5 +365,28 @@ function _handleVestingEndFailed(
 
     cursor.save();
     task.save();
+  }
+}
+
+export function handleVestingClaimed_v2(event: VestingClaimed): void {
+  const ev = createVestingClaimedEventEntity(event);
+  ev.save();
+
+  const cursor = getOrCreateTokenSenderReceiverCursor(
+    ev.superToken,
+    ev.sender,
+    ev.receiver,
+    "v2"
+  );
+
+  const currentVestingSchedule = getVestingSchedule(cursor);
+
+  if (currentVestingSchedule) {
+    currentVestingSchedule.claimedAt = ev.timestamp;
+    let events = currentVestingSchedule.events;
+    events.push(ev.id);
+    currentVestingSchedule.events = events;
+    currentVestingSchedule.save();
+    cursor.save();
   }
 }

@@ -11,15 +11,48 @@
     "type": "constructor"
   },
   { "inputs": [], "name": "AccountInvalid", "type": "error" },
-  { "inputs": [], "name": "CannotClaimFlowOnBehalf", "type": "error" },
+  { "inputs": [], "name": "AlreadyExecuted", "type": "error" },
+  { "inputs": [], "name": "CannotClaimScheduleOnBehalf", "type": "error" },
   { "inputs": [], "name": "CliffInvalid", "type": "error" },
   { "inputs": [], "name": "FlowRateInvalid", "type": "error" },
   { "inputs": [], "name": "HostInvalid", "type": "error" },
   { "inputs": [], "name": "ScheduleAlreadyExists", "type": "error" },
   { "inputs": [], "name": "ScheduleDoesNotExist", "type": "error" },
+  { "inputs": [], "name": "ScheduleNotClaimed", "type": "error" },
   { "inputs": [], "name": "ScheduleNotFlowing", "type": "error" },
   { "inputs": [], "name": "TimeWindowInvalid", "type": "error" },
   { "inputs": [], "name": "ZeroAddress", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract ISuperToken",
+        "name": "superToken",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "claimer",
+        "type": "address"
+      }
+    ],
+    "name": "VestingClaimed",
+    "type": "event"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -202,9 +235,9 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint96",
         "name": "remainderAmount",
-        "type": "uint256"
+        "type": "uint96"
       }
     ],
     "name": "VestingScheduleCreated",
@@ -267,6 +300,12 @@
         "internalType": "uint32",
         "name": "endDate",
         "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint96",
+        "name": "remainderAmount",
+        "type": "uint96"
       }
     ],
     "name": "VestingScheduleUpdated",
@@ -290,6 +329,66 @@
     "inputs": [],
     "name": "START_DATE_VALID_AFTER",
     "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISuperToken",
+        "name": "superToken",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "sender", "type": "address" },
+      { "internalType": "address", "name": "receiver", "type": "address" }
+    ],
+    "name": "_getVestingScheduleAggregate",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract ISuperToken",
+            "name": "superToken",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "sender", "type": "address" },
+          { "internalType": "address", "name": "receiver", "type": "address" },
+          { "internalType": "bytes32", "name": "id", "type": "bytes32" },
+          {
+            "components": [
+              {
+                "internalType": "uint32",
+                "name": "cliffAndFlowDate",
+                "type": "uint32"
+              },
+              { "internalType": "uint32", "name": "endDate", "type": "uint32" },
+              { "internalType": "int96", "name": "flowRate", "type": "int96" },
+              {
+                "internalType": "uint256",
+                "name": "cliffAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint96",
+                "name": "remainderAmount",
+                "type": "uint96"
+              },
+              {
+                "internalType": "uint32",
+                "name": "claimValidityDate",
+                "type": "uint32"
+              }
+            ],
+            "internalType": "struct IVestingSchedulerV2.VestingSchedule",
+            "name": "schedule",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct VestingSchedulerV2.ScheduleAggregate",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -484,11 +583,7 @@
       { "internalType": "address", "name": "receiver", "type": "address" },
       { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
       { "internalType": "uint32", "name": "totalDuration", "type": "uint32" },
-      {
-        "internalType": "uint32",
-        "name": "claimValidityDate",
-        "type": "uint32"
-      },
+      { "internalType": "uint32", "name": "claimPeriod", "type": "uint32" },
       { "internalType": "uint32", "name": "cliffPeriod", "type": "uint32" }
     ],
     "name": "createClaimableVestingScheduleFromAmountAndDuration",
@@ -506,11 +601,7 @@
       { "internalType": "address", "name": "receiver", "type": "address" },
       { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
       { "internalType": "uint32", "name": "totalDuration", "type": "uint32" },
-      {
-        "internalType": "uint32",
-        "name": "claimValidityDate",
-        "type": "uint32"
-      },
+      { "internalType": "uint32", "name": "claimPeriod", "type": "uint32" },
       { "internalType": "uint32", "name": "cliffPeriod", "type": "uint32" },
       { "internalType": "uint32", "name": "startDate", "type": "uint32" }
     ],
@@ -529,11 +620,7 @@
       { "internalType": "address", "name": "receiver", "type": "address" },
       { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
       { "internalType": "uint32", "name": "totalDuration", "type": "uint32" },
-      {
-        "internalType": "uint32",
-        "name": "claimValidityDate",
-        "type": "uint32"
-      }
+      { "internalType": "uint32", "name": "claimPeriod", "type": "uint32" }
     ],
     "name": "createClaimableVestingScheduleFromAmountAndDuration",
     "outputs": [],
@@ -550,11 +637,7 @@
       { "internalType": "address", "name": "receiver", "type": "address" },
       { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
       { "internalType": "uint32", "name": "totalDuration", "type": "uint32" },
-      {
-        "internalType": "uint32",
-        "name": "claimValidityDate",
-        "type": "uint32"
-      },
+      { "internalType": "uint32", "name": "claimPeriod", "type": "uint32" },
       { "internalType": "uint32", "name": "cliffPeriod", "type": "uint32" },
       { "internalType": "uint32", "name": "startDate", "type": "uint32" },
       { "internalType": "bytes", "name": "ctx", "type": "bytes" }
@@ -720,7 +803,107 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "supertoken", "type": "address" },
+      {
+        "internalType": "contract ISuperToken",
+        "name": "superToken",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "receiver", "type": "address" },
+      { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
+      { "internalType": "uint32", "name": "totalDuration", "type": "uint32" },
+      { "internalType": "uint32", "name": "cliffPeriod", "type": "uint32" },
+      { "internalType": "uint32", "name": "startDate", "type": "uint32" },
+      { "internalType": "uint32", "name": "claimPeriod", "type": "uint32" }
+    ],
+    "name": "getCreateVestingScheduleParamsFromAmountAndDuration",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract ISuperToken",
+            "name": "superToken",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "receiver", "type": "address" },
+          { "internalType": "uint32", "name": "startDate", "type": "uint32" },
+          {
+            "internalType": "uint32",
+            "name": "claimValidityDate",
+            "type": "uint32"
+          },
+          { "internalType": "uint32", "name": "cliffDate", "type": "uint32" },
+          { "internalType": "int96", "name": "flowRate", "type": "int96" },
+          {
+            "internalType": "uint256",
+            "name": "cliffAmount",
+            "type": "uint256"
+          },
+          { "internalType": "uint32", "name": "endDate", "type": "uint32" },
+          {
+            "internalType": "uint96",
+            "name": "remainderAmount",
+            "type": "uint96"
+          }
+        ],
+        "internalType": "struct IVestingSchedulerV2.ScheduleCreationParams",
+        "name": "result",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "superToken", "type": "address" },
+      { "internalType": "address", "name": "sender", "type": "address" },
+      { "internalType": "address", "name": "receiver", "type": "address" }
+    ],
+    "name": "getMaximumNeededTokenAllowance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint32",
+            "name": "cliffAndFlowDate",
+            "type": "uint32"
+          },
+          { "internalType": "uint32", "name": "endDate", "type": "uint32" },
+          { "internalType": "int96", "name": "flowRate", "type": "int96" },
+          {
+            "internalType": "uint256",
+            "name": "cliffAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint96",
+            "name": "remainderAmount",
+            "type": "uint96"
+          },
+          {
+            "internalType": "uint32",
+            "name": "claimValidityDate",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct IVestingSchedulerV2.VestingSchedule",
+        "name": "schedule",
+        "type": "tuple"
+      }
+    ],
+    "name": "getMaximumNeededTokenAllowance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "superToken", "type": "address" },
       { "internalType": "address", "name": "sender", "type": "address" },
       { "internalType": "address", "name": "receiver", "type": "address" }
     ],
@@ -734,11 +917,6 @@
             "type": "uint32"
           },
           { "internalType": "uint32", "name": "endDate", "type": "uint32" },
-          {
-            "internalType": "uint32",
-            "name": "claimValidityDate",
-            "type": "uint32"
-          },
           { "internalType": "int96", "name": "flowRate", "type": "int96" },
           {
             "internalType": "uint256",
@@ -746,9 +924,14 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint256",
+            "internalType": "uint96",
             "name": "remainderAmount",
-            "type": "uint256"
+            "type": "uint96"
+          },
+          {
+            "internalType": "uint32",
+            "name": "claimValidityDate",
+            "type": "uint32"
           }
         ],
         "internalType": "struct IVestingSchedulerV2.VestingSchedule",
@@ -785,17 +968,13 @@
         "type": "uint32"
       },
       { "internalType": "uint32", "name": "endDate", "type": "uint32" },
+      { "internalType": "int96", "name": "flowRate", "type": "int96" },
+      { "internalType": "uint256", "name": "cliffAmount", "type": "uint256" },
+      { "internalType": "uint96", "name": "remainderAmount", "type": "uint96" },
       {
         "internalType": "uint32",
         "name": "claimValidityDate",
         "type": "uint32"
-      },
-      { "internalType": "int96", "name": "flowRate", "type": "int96" },
-      { "internalType": "uint256", "name": "cliffAmount", "type": "uint256" },
-      {
-        "internalType": "uint256",
-        "name": "remainderAmount",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

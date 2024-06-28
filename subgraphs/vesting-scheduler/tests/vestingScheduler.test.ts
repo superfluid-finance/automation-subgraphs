@@ -8,10 +8,12 @@ import {
   test,
 } from "matchstick-as";
 import {
+  handleVestingClaimed_v2,
   handleVestingCliffAndFlowExecuted_v1,
   handleVestingEndExecuted_v1,
   handleVestingEndFailed_v1,
   handleVestingScheduleCreated_v1,
+  handleVestingScheduleCreated_v2,
   handleVestingScheduleDeleted_v1,
   handleVestingScheduleUpdated_v1,
 } from "../src/mappings/vestingScheduler";
@@ -19,10 +21,11 @@ import { Task } from "../src/types/schema";
 import { getOrCreateTokenSenderReceiverCursor } from "../src/utils/tokenSenderReceiverCursor";
 import { getVestingSchedule } from "../src/utils/vestingSchedule";
 import { assertEventBaseProperties } from "./assertionHelper";
-import { alice, bob, FALSE, maticx } from "./constants";
+import { alice, bob, charlie, FALSE, maticx } from "./constants";
 import {
   createNewCreateVestingScheduleEvent,
   createNewDeleteVestingScheduleEvent,
+  createNewVestingClaimedEvent,
   createNewVestingCliffAndFlowExecutedEvent,
   createNewVestingEndExecutedEvent,
   createNewVestingEndFailedEvent,
@@ -591,6 +594,46 @@ describe("Host Mapper Unit Tests", () => {
           createEvent.block.timestamp
         );
       });
+
+      // TODO: add test for claiming
+      // test("VestingClaimed", () => {
+      //   const createdEvent = createNewCreateVestingScheduleEvent(
+      //     superToken,
+      //     sender,
+      //     receiver,
+      //     startDate,
+      //     cliffDate,
+      //     flowRate,
+      //     cliffAmount,
+      //     endDate
+      //   );
+
+      //   const claimer = charlie;
+      //   const claimedEvent = createNewVestingClaimedEvent(
+      //     superToken,
+      //     sender,
+      //     receiver,
+      //     claimer
+      //   );
+
+      //   handleVestingScheduleCreated_v2(createdEvent);
+
+      //   handleVestingClaimed_v2(claimedEvent);
+
+      //   const cursor = getOrCreateTokenSenderReceiverCursor(
+      //     Bytes.fromHexString(superToken),
+      //     Bytes.fromHexString(sender),
+      //     Bytes.fromHexString(receiver),
+      //     contractVersion
+      //   );
+
+      //   const vestingSchedule = getVestingSchedule(cursor)!;
+
+      //   assert.bigIntEquals(
+      //     vestingSchedule.claimedAt!,
+      //     claimedEvent.block.timestamp
+      //   );
+      // });
     });
 
     describe("Tasks", () => {

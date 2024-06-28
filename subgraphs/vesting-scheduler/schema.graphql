@@ -175,6 +175,31 @@ type VestingScheduleUpdatedEvent implements Event @entity(immutable: true) {
   receiver: Bytes!
   oldEndDate: BigInt!
   endDate: BigInt!
+
+  remainderAmount: BigInt!
+}
+
+type VestingClaimedEvent implements Event @entity(immutable: true) {
+  # Base Event Properties #
+  id: ID!
+  blockNumber: BigInt!
+  logIndex: BigInt!
+  order: BigInt!
+  name: String!
+
+  """
+  Holds the addresses for sender and receiver.
+  """
+  addresses: [Bytes!]!
+  timestamp: BigInt!
+  transactionHash: Bytes!
+  gasPrice: BigInt!
+
+  # VestingClaimedEvent Specific Properties #
+  superToken: Bytes!
+  sender: Bytes!
+  receiver: Bytes!
+  claimer: Bytes!
 }
 
 enum ContractVersion {
@@ -208,6 +233,7 @@ type VestingSchedule @entity {
 
   # V2 properties
   claimValidityDate: BigInt!
+  claimedAt: BigInt
   remainderAmount: BigInt!
 }
 

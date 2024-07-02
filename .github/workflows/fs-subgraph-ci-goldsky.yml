@@ -53,7 +53,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const packageJson = JSON.parse(fs.readFileSync('./package.json'));
+            const packageJson = JSON.parse(fs.readFileSync('./subgraphs/flow-scheduler/package.json'));
             return packageJson.version;
       - name: Goldsky Login
         run: pnpm exec goldsky login --token ${{secrets.GOLDSKY_API_KEY}}

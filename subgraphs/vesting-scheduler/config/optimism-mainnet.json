@@ -1,7 +1,5 @@
 {
   "network": "optimism",
   "vestingSchedulerAddress": "0x65377d4dfE9c01639A41952B5083D58964782892",
-  "vestingSchedulerStartBlock": 67820482,
-  "vestingSchedulerAddress_v2": "0x27444c0235a4D921F3106475faeba0B5e7ABDD7a",
-  "vestingSchedulerStartBlock_v2": 122154354
+  "vestingSchedulerStartBlock": 67820482
 }

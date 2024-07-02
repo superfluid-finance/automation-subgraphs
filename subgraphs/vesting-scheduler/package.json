@@ -8,7 +8,7 @@
   "license": "MIT",
   "author": "Superfluid",
   "scripts": {
-    "build": "graph build ./optimism-mainnet.subgraph.yaml",
+    "build": "graph build ./optimism-sepolia.subgraph.yaml",
     "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-mainnet/1.1.8 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",

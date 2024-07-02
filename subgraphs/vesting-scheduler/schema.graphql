@@ -125,6 +125,10 @@ type VestingScheduleCreatedEvent implements Event @entity(immutable: true) {
   flowRate: BigInt!
   endDate: BigInt!
   cliffAmount: BigInt!
+
+  # V2 properties
+  claimValidityDate: BigInt!
+  remainderAmount: BigInt!
 }
 
 type VestingScheduleDeletedEvent implements Event @entity(immutable: true) {
@@ -171,10 +175,41 @@ type VestingScheduleUpdatedEvent implements Event @entity(immutable: true) {
   receiver: Bytes!
   oldEndDate: BigInt!
   endDate: BigInt!
+
+  remainderAmount: BigInt!
+}
+
+type VestingClaimedEvent implements Event @entity(immutable: true) {
+  # Base Event Properties #
+  id: ID!
+  blockNumber: BigInt!
+  logIndex: BigInt!
+  order: BigInt!
+  name: String!
+
+  """
+  Holds the addresses for sender and receiver.
+  """
+  addresses: [Bytes!]!
+  timestamp: BigInt!
+  transactionHash: Bytes!
+  gasPrice: BigInt!
+
+  # VestingClaimedEvent Specific Properties #
+  superToken: Bytes!
+  sender: Bytes!
+  receiver: Bytes!
+  claimer: Bytes!
+}
+
+enum ContractVersion {
+  v1
+  v2
 }
 
 type VestingSchedule @entity {
   id: String!
+  contractVersion: ContractVersion!
   createdAt: BigInt!
   superToken: Bytes!
   sender: Bytes!
@@ -195,6 +230,11 @@ type VestingSchedule @entity {
   endExecutedAt: BigInt
   tasks: [Task!]! @derivedFrom(field: "vestingSchedule")
   events: [Event!]!
+
+  # V2 properties
+  claimValidityDate: BigInt!
+  claimedAt: BigInt
+  remainderAmount: BigInt!
 }
 
 type TokenSenderReceiverCursor @entity {

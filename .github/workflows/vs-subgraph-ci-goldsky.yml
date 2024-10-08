@@ -2,6 +2,23 @@ name: Deploy VestingScheduler Subgraphs (Goldsky)
 
 on:
   workflow_dispatch:
+    inputs:
+      network:
+        description: 'Network to deploy (select "all" for all networks)'
+        required: true
+        type: choice
+        options:
+          - all
+          - avalanche-c
+          - arbitrum-one
+          - bsc-mainnet
+          - eth-mainnet
+          - xdai-mainnet
+          - optimism-mainnet
+          - polygon-mainnet
+          - optimism-sepolia
+          - base-mainnet
+        default: 'all'
   push:
     branches:
       - "release-v1/*"
@@ -17,18 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        networks:
-          [
-            "avalanche-c",
-            "arbitrum-one",
-            "bsc-mainnet",
-            "eth-mainnet",
-            "xdai-mainnet",
-            "optimism-mainnet",
-            "polygon-mainnet",
-            "optimism-sepolia",
-            "base-mainnet"
-          ]
+        networks: ${{ github.event.inputs.network == 'all' && fromJson('["avalanche-c", "arbitrum-one", "bsc-mainnet", "eth-mainnet", "xdai-mainnet", "optimism-mainnet", "polygon-mainnet", "optimism-sepolia", "base-mainnet"]') || fromJson(format('["{0}"]', github.event.inputs.network)) }}
     steps:
       - uses: actions/checkout@v4
       - name: Install node

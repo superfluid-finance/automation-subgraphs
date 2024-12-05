@@ -1,0 +1,57 @@
+name: Deploy VestingScheduler Subgraphs (Graph Studio)
+
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: 'Network to deploy (select "all" for all networks)'
+        required: true
+        type: choice
+        options:
+          - all
+          - base-mainnet
+        default: 'all'
+  push:
+    branches:
+      - "release-v1/*"
+    paths:
+      - "subgraphs/vesting-scheduler/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: subgraphs/vesting-scheduler
+    strategy:
+      fail-fast: false
+      matrix:
+        networks: ${{ github.event.inputs.network == 'all' && fromJson('["base-mainnet"]') || fromJson(format('["{0}"]', github.event.inputs.network)) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Install
+        run: pnpm install
+      - name: Generate YAML & Types
+        run: pnpm gen
+      - name: Build
+        run: pnpm exec graph build ${{format('./{0}.subgraph.yaml', matrix.networks)}}
+      - name: Test
+        run: pnpm test
+      - name: Get Version
+        id: get-version
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const packageJson = JSON.parse(fs.readFileSync('./subgraphs/vesting-scheduler/package.json'));
+            return packageJson.version;
+      - name: Graph Deploy
+        run: npx --package=@graphprotocol/graph-cli --yes -- graph deploy --studio ${{format('vesting-v1-{0}/{1}', matrix.networks, steps.get-version.outputs.result) }} --deploy-key ${{secrets.THE_GRAPH_ACCESS_TOKEN}} --version-label "1.0.4"

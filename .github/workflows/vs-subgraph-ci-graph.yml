@@ -42,7 +42,7 @@ jobs:
       - name: Generate YAML & Types
         run: pnpm gen
       - name: Build
-        run: pnpm exec graph build ${{format('./{0}.subgraph.yaml', matrix.networks)}}
+        run: pnpm exec graph build base-mainnet.subgraph.yaml
       - name: Test
         run: pnpm test
       - name: Get Version

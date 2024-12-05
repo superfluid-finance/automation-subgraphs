@@ -14,8 +14,9 @@ on:
   push:
     branches:
       - "release-v1/*"
-    paths:
-      - "subgraphs/vesting-scheduler/**"
+      - "graph-studio"
+    # paths:
+    #   - "subgraphs/vesting-scheduler/**"
 
 jobs:
   deploy:

@@ -3,5 +3,7 @@
   "vestingSchedulerAddress": "0x27444c0235a4D921F3106475faeba0B5e7ABDD7a",
   "vestingSchedulerStartBlock": 11122232,
   "vestingSchedulerAddress_v2": "0x3aa62b96f44D0f8892BeBBC819DE8e02E9DE69A8",
-  "vestingSchedulerStartBlock_v2": 14061097
+  "vestingSchedulerStartBlock_v2": 14061097,
+  "vestingSchedulerAddress_v3": "0x7cEC6490CEfF2768A1ecfc6d71C1dF819A8a6E3c",
+  "vestingSchedulerStartBlock_v3": 24909525
 }

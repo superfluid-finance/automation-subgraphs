@@ -18,6 +18,11 @@ import {
   VestingScheduleCreated as VestingScheduleCreated_v2,
   VestingScheduleUpdated as VestingScheduleUpdated_v2,
 } from "../types/VestingScheduler_v2/VestingScheduler";
+import {
+  VestingClaimed as VestingClaimed_v3,
+  VestingScheduleCreated as VestingScheduleCreated_v3,
+  VestingScheduleUpdated as VestingScheduleUpdated_v3,
+} from "../types/VestingScheduler_v3/VestingScheduler";
 import { createTask } from "../utils/createTask";
 import { createVestingCliffAndFlowExecutedEntity } from "../utils/createVestingCliffAndFlowExecuted";
 import { createVestingEndExecutedEventEntity } from "../utils/createVestingEndExecuted";
@@ -26,11 +31,13 @@ import { createVestingEndFailedEventEntity } from "../utils/createVestingEndFail
 import {
   createVestingScheduleCreatedEventEntity_v1,
   createVestingScheduleCreatedEventEntity_v2,
+  createVestingScheduleCreatedEventEntity_v3
 } from "../utils/createVestingScheduleCreated";
 import { createVestingScheduleDeletedEventEntity } from "../utils/createVestingScheduleDeleted";
 import {
   createVestingUpdatedEntity_v1,
   createVestingUpdatedEntity_v2,
+  createVestingUpdatedEntity_v3
 } from "../utils/createVestingScheduleUpdated";
 
 import { getOrCreateTokenSenderReceiverCursor } from "../utils/tokenSenderReceiverCursor";
@@ -109,6 +116,15 @@ export function handleVestingScheduleCreated_v2(
   _handleVestingScheduleCreated(event, storedEvent, "v2");
 }
 
+export function handleVestingScheduleCreated_v3(
+  event: VestingScheduleCreated_v3
+): void {
+  const storedEvent = createVestingScheduleCreatedEventEntity_v3(event);
+  storedEvent.save();
+
+  _handleVestingScheduleCreated(event, storedEvent, "v3");
+}
+
 function _handleVestingScheduleCreated(
   event: ethereum.Event,
   storedEvent: VestingScheduleCreatedEvent,
@@ -166,6 +182,12 @@ export function handleVestingScheduleDeleted_v2(
   event: VestingScheduleDeleted
 ): void {
   _handleVestingScheduleDeleted(event, "v2");
+}
+
+export function handleVestingScheduleDeleted_v3(
+  event: VestingScheduleDeleted
+): void {
+  _handleVestingScheduleDeleted(event, "v3");
 }
 
 function _handleVestingScheduleDeleted(
@@ -236,6 +258,15 @@ export function handleVestingScheduleUpdated_v2(
   _handleVestingScheduleUpdated(event, storedEvent, "v2");
 }
 
+export function handleVestingScheduleUpdated_v3(
+  event: VestingScheduleUpdated_v3
+): void {
+  const storedEvent = createVestingUpdatedEntity_v3(event, "v3");
+  storedEvent.save();
+
+  _handleVestingScheduleUpdated(event, storedEvent, "v3");
+}
+
 function _handleVestingScheduleUpdated(
   event: ethereum.Event,
   storedEvent: VestingScheduleUpdatedEvent,
@@ -279,6 +310,10 @@ export function handleVestingEndExecuted_v1(event: VestingEndExecuted): void {
 
 export function handleVestingEndExecuted_v2(event: VestingEndExecuted): void {
   _handleVestingEndExecuted(event, "v2");
+}
+
+export function handleVestingEndExecuted_v3(event: VestingEndExecuted): void {
+  _handleVestingEndExecuted(event, "v3");
 }
 
 function _handleVestingEndExecuted(
@@ -329,6 +364,10 @@ export function handleVestingEndFailed_v2(event: VestingEndFailed): void {
   _handleVestingEndFailed(event, "v2");
 }
 
+export function handleVestingEndFailed_v3(event: VestingEndFailed): void {
+  _handleVestingEndFailed(event, "v3");
+}
+
 function _handleVestingEndFailed(
   event: VestingEndFailed,
   contractVersion: string
@@ -377,6 +416,29 @@ export function handleVestingClaimed_v2(event: VestingClaimed): void {
     ev.sender,
     ev.receiver,
     "v2"
+  );
+
+  const currentVestingSchedule = getVestingSchedule(cursor);
+
+  if (currentVestingSchedule) {
+    currentVestingSchedule.claimedAt = ev.timestamp;
+    let events = currentVestingSchedule.events;
+    events.push(ev.id);
+    currentVestingSchedule.events = events;
+    currentVestingSchedule.save();
+    cursor.save();
+  }
+}
+
+export function handleVestingClaimed_v3(event: VestingClaimed): void {
+  const ev = createVestingClaimedEventEntity(event);
+  ev.save();
+
+  const cursor = getOrCreateTokenSenderReceiverCursor(
+    ev.superToken,
+    ev.sender,
+    ev.receiver,
+    "v3"
   );
 
   const currentVestingSchedule = getVestingSchedule(cursor);

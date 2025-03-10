@@ -87,3 +87,46 @@ dataSources:
           handler: handleVestingClaimed_v2
           receipt: true
   {{/vestingSchedulerAddress_v2}}
+  {{#vestingSchedulerAddress_v3}}
+  - kind: ethereum/contract
+    name: VestingScheduler_v3
+    network: {{ network }}
+    source:
+      abi: VestingScheduler
+      address: "{{ vestingSchedulerAddress_v3 }}"
+      startBlock: {{ vestingSchedulerStartBlock_v3 }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/vestingScheduler.ts
+      entities:
+        - VestingCliffAndFlowExecuted
+        - VestingEndExecuted
+        - VestingScheduleCreated
+        - VestingScheduleDeleted
+        - VestingScheduleUpdated
+        - VestingEndFailed
+        - VestingClaimed
+      abis:
+        - name: VestingScheduler
+          file: ./abis/VestingScheduler_v3.json
+      eventHandlers:
+        - event: VestingCliffAndFlowExecuted(indexed address,indexed address,indexed address,uint32,int96,uint256,uint256)
+          handler: handleVestingCliffAndFlowExecuted_v3
+          receipt: true
+        - event: VestingEndExecuted(indexed address,indexed address,indexed address,uint32,uint256,bool)
+          handler: handleVestingEndExecuted_v3
+          receipt: true
+        - event: VestingScheduleCreated(indexed address,indexed address,indexed address,uint32,uint32,int96,uint32,uint256,uint32,uint96)
+          handler: handleVestingScheduleCreated_v3
+        - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
+          handler: handleVestingScheduleDeleted_v3
+        - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32,uint96)
+          handler: handleVestingScheduleUpdated_v3
+        - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
+          handler: handleVestingEndFailed_v3
+        - event: VestingClaimed(indexed address,indexed address,indexed address,address)
+          handler: handleVestingClaimed_v3
+          receipt: true
+  {{/vestingSchedulerAddress_v3}}

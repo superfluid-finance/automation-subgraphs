@@ -83,9 +83,9 @@ dataSources:
           handler: handleVestingScheduleUpdated_v2
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
           handler: handleVestingEndFailed_v2
+          receipt: true
         - event: VestingClaimed(indexed address,indexed address,indexed address,address)
           handler: handleVestingClaimed_v2
-          receipt: true
   {{/vestingSchedulerAddress_v2}}
   {{#vestingSchedulerAddress_v3}}
   - kind: ethereum/contract
@@ -126,7 +126,7 @@ dataSources:
           handler: handleVestingScheduleUpdated_v3
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
           handler: handleVestingEndFailed_v3
-        - event: VestingClaimed(indexed address,indexed address,indexed address,address)
-          handler: handleVestingClaimed_v3
           receipt: true
+        - event: VestingClaimed(indexed address,indexed address,indexed address,address)
+
   {{/vestingSchedulerAddress_v3}}

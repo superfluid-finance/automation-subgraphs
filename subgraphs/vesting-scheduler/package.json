@@ -1,6 +1,6 @@
 {
   "name": "vesting-scheduler-subgraph",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A subgraph for the vesting scheduler contracts",
   "keywords": [
     "subgraph"
@@ -9,7 +9,7 @@
   "author": "Superfluid",
   "scripts": {
     "build": "graph build ./optimism-sepolia.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.0.3 --path ./build",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.1.0 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",
@@ -17,18 +17,18 @@
     "test": "graph test"
   },
   "devDependencies": {
-    "@goldskycom/cli": "^8.7.0",
-    "@graphprotocol/graph-cli": "^0.71.0",
-    "@graphprotocol/graph-ts": "^0.35.1",
-    "@types/node": "^20.11.28",
+    "@goldskycom/cli": "^11.4.2",
+    "@graphprotocol/graph-cli": "^0.96.0",
+    "@graphprotocol/graph-ts": "^0.38.0",
+    "@types/node": "^22.13.10",
     "assemblyscript": "0.19.23",
     "assemblyscript-json": "^1.1.0",
     "matchstick-as": "^0.6.0",
     "mustache": "^4.2.0",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.9",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.2.5",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"  
+    "typescript": "^5.8.2"
   }
 }

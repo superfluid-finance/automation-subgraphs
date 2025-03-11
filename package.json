@@ -11,6 +11,9 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "@goldskycom/cli": "^8.7.0"
+    "@goldskycom/cli": "^11.4.2"
+  },
+  "overrides": {
+    "assemblyscript": "0.19.23"
   }
 }

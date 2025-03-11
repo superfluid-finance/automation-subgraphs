@@ -408,7 +408,7 @@ function _handleVestingEndFailed(
 }
 
 export function handleVestingClaimed_v2(event: VestingClaimed): void {
-  const ev = createVestingClaimedEventEntity(event);
+  const ev = createVestingClaimedEventEntity(event, "v2");
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(
@@ -431,7 +431,7 @@ export function handleVestingClaimed_v2(event: VestingClaimed): void {
 }
 
 export function handleVestingClaimed_v3(event: VestingClaimed): void {
-  const ev = createVestingClaimedEventEntity(event);
+  const ev = createVestingClaimedEventEntity(event, "v3");
   ev.save();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(

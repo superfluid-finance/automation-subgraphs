@@ -3,10 +3,11 @@ import { createEventID, setBaseProperties } from "./general";
 import { VestingClaimed } from "../types/VestingScheduler_v2/VestingScheduler";
 
 export function createVestingClaimedEventEntity(
-  event: VestingClaimed
+  event: VestingClaimed,
+  contractVersion: string
 ): VestingClaimedEvent {
   let ev = new VestingClaimedEvent(
-    createEventID("VestingClaimed", event, "v2")
+    createEventID("VestingClaimed", event, contractVersion)
   );
 
   ev = setBaseProperties("VestingClaimedEvent", event, ev, [

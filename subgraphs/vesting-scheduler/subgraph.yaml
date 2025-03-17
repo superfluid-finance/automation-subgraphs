@@ -129,4 +129,8 @@ dataSources:
           receipt: true
         - event: VestingClaimed(indexed address,indexed address,indexed address,address)
           handler: handleVestingClaimed_v3
+        - event: VestingScheduleTotalAmountUpdated(indexed address,indexed address,indexed address,int96,int96,uint256,uint256,uint96)
+          handler: handleVestingScheduleTotalAmountUpdated_v3
+        - event: VestingScheduleEndDateUpdated(indexed address,indexed address,indexed address,uint32,uint32,int96,int96,uint96)
+          handler: handleVestingScheduleEndDateUpdated_v3
   {{/vestingSchedulerAddress_v3}}

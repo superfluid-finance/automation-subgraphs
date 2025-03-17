@@ -5,23 +5,33 @@ import {
   VestingScheduleUpdatedEvent,
 } from "../types/schema";
 import {
-  VestingCliffAndFlowExecuted,
-  VestingEndExecuted,
-  VestingEndFailed,
-  VestingScheduleCreated,
-  VestingScheduleDeleted,
   VestingScheduler,
-  VestingScheduleUpdated,
+  VestingCliffAndFlowExecuted as VestingCliffAndFlowExecuted_v1,
+  VestingEndExecuted as VestingEndExecuted_v1,
+  VestingEndFailed as VestingEndFailed_v1,
+  VestingScheduleCreated as VestingScheduleCreated_v1,
+  VestingScheduleDeleted as VestingScheduleDeleted_v1,
+  VestingScheduleUpdated as VestingScheduleUpdated_v1,
 } from "../types/VestingScheduler/VestingScheduler";
 import {
-  VestingClaimed,
+  VestingScheduleDeleted as VestingScheduleDeleted_v2,
+  VestingClaimed as VestingClaimed_v2,
+  VestingCliffAndFlowExecuted as VestingCliffAndFlowExecuted_v2,
   VestingScheduleCreated as VestingScheduleCreated_v2,
   VestingScheduleUpdated as VestingScheduleUpdated_v2,
+  VestingEndExecuted as VestingEndExecuted_v2,
+  VestingEndFailed as VestingEndFailed_v2,
 } from "../types/VestingScheduler_v2/VestingScheduler";
 import {
+  VestingCliffAndFlowExecuted as VestingCliffAndFlowExecuted_v3,
   VestingClaimed as VestingClaimed_v3,
   VestingScheduleCreated as VestingScheduleCreated_v3,
+  VestingScheduleDeleted as VestingScheduleDeleted_v3,
   VestingScheduleUpdated as VestingScheduleUpdated_v3,
+  VestingScheduleTotalAmountUpdated as VestingScheduleTotalAmountUpdated_v3,
+  VestingScheduleEndDateUpdated as VestingScheduleEndDateUpdated_v3,
+  VestingEndExecuted as VestingEndExecuted_v3,
+  VestingEndFailed as VestingEndFailed_v3,
 } from "../types/VestingScheduler_v3/VestingScheduler";
 import { createTask } from "../utils/createTask";
 import { createVestingCliffAndFlowExecutedEntity } from "../utils/createVestingCliffAndFlowExecuted";
@@ -47,20 +57,28 @@ import {
 } from "../utils/vestingSchedule";
 import { createVestingClaimedEventEntity } from "../utils/createVestingClaimed";
 
+import { log } from "@graphprotocol/graph-ts"
+
 export function handleVestingCliffAndFlowExecuted_v1(
-  event: VestingCliffAndFlowExecuted
+  event: VestingCliffAndFlowExecuted_v1
 ): void {
   _handleVestingCliffAndFlowExecuted(event, "v1");
 }
 
 export function handleVestingCliffAndFlowExecuted_v2(
-  event: VestingCliffAndFlowExecuted
+  event: VestingCliffAndFlowExecuted_v1
 ): void {
   _handleVestingCliffAndFlowExecuted(event, "v2");
 }
 
+export function handleVestingCliffAndFlowExecuted_v3(
+  event: VestingCliffAndFlowExecuted_v1
+): void {
+  _handleVestingCliffAndFlowExecuted(event, "v3");
+}
+
 function _handleVestingCliffAndFlowExecuted(
-  event: VestingCliffAndFlowExecuted,
+  event: VestingCliffAndFlowExecuted_v1,
   contractVersion: string
 ): void {
   const ev = createVestingCliffAndFlowExecutedEntity(event, contractVersion);
@@ -99,7 +117,7 @@ function _handleVestingCliffAndFlowExecuted(
 }
 
 export function handleVestingScheduleCreated_v1(
-  event: VestingScheduleCreated
+  event: VestingScheduleCreated_v1
 ): void {
   const storedEvent = createVestingScheduleCreatedEventEntity_v1(event);
   storedEvent.save();
@@ -173,25 +191,25 @@ function _handleVestingScheduleCreated(
 }
 
 export function handleVestingScheduleDeleted_v1(
-  event: VestingScheduleDeleted
+  event: VestingScheduleDeleted_v1
 ): void {
   _handleVestingScheduleDeleted(event, "v1");
 }
 
 export function handleVestingScheduleDeleted_v2(
-  event: VestingScheduleDeleted
+  event: VestingScheduleDeleted_v1
 ): void {
   _handleVestingScheduleDeleted(event, "v2");
 }
 
 export function handleVestingScheduleDeleted_v3(
-  event: VestingScheduleDeleted
+  event: VestingScheduleDeleted_v1
 ): void {
   _handleVestingScheduleDeleted(event, "v3");
 }
 
 function _handleVestingScheduleDeleted(
-  event: VestingScheduleDeleted,
+  event: VestingScheduleDeleted_v1,
   contractVersion: string
 ): void {
   const ev = createVestingScheduleDeletedEventEntity(event, contractVersion);
@@ -241,7 +259,7 @@ function _handleVestingScheduleDeleted(
 }
 
 export function handleVestingScheduleUpdated_v1(
-  event: VestingScheduleUpdated
+  event: VestingScheduleUpdated_v1
 ): void {
   const storedEvent = createVestingUpdatedEntity_v1(event, "v1");
   storedEvent.save();
@@ -304,20 +322,20 @@ function _handleVestingScheduleUpdated(
   }
 }
 
-export function handleVestingEndExecuted_v1(event: VestingEndExecuted): void {
+export function handleVestingEndExecuted_v1(event: VestingEndExecuted_v1): void {
   _handleVestingEndExecuted(event, "v1");
 }
 
-export function handleVestingEndExecuted_v2(event: VestingEndExecuted): void {
+export function handleVestingEndExecuted_v2(event: VestingEndExecuted_v1): void {
   _handleVestingEndExecuted(event, "v2");
 }
 
-export function handleVestingEndExecuted_v3(event: VestingEndExecuted): void {
+export function handleVestingEndExecuted_v3(event: VestingEndExecuted_v1): void {
   _handleVestingEndExecuted(event, "v3");
 }
 
 function _handleVestingEndExecuted(
-  event: VestingEndExecuted,
+  event: VestingEndExecuted_v1,
   contractVersion: string
 ): void {
   const ev = createVestingEndExecutedEventEntity(event, contractVersion);
@@ -356,20 +374,20 @@ function _handleVestingEndExecuted(
   }
 }
 
-export function handleVestingEndFailed_v1(event: VestingEndFailed): void {
+export function handleVestingEndFailed_v1(event: VestingEndFailed_v1): void {
   _handleVestingEndFailed(event, "v1");
 }
 
-export function handleVestingEndFailed_v2(event: VestingEndFailed): void {
+export function handleVestingEndFailed_v2(event: VestingEndFailed_v1): void {
   _handleVestingEndFailed(event, "v2");
 }
 
-export function handleVestingEndFailed_v3(event: VestingEndFailed): void {
+export function handleVestingEndFailed_v3(event: VestingEndFailed_v1): void {
   _handleVestingEndFailed(event, "v3");
 }
 
 function _handleVestingEndFailed(
-  event: VestingEndFailed,
+  event: VestingEndFailed_v1,
   contractVersion: string
 ): void {
   const ev = createVestingEndFailedEventEntity(event, contractVersion);
@@ -407,7 +425,7 @@ function _handleVestingEndFailed(
   }
 }
 
-export function handleVestingClaimed_v2(event: VestingClaimed): void {
+export function handleVestingClaimed_v2(event: VestingClaimed_v2): void {
   const ev = createVestingClaimedEventEntity(event, "v2");
   ev.save();
 
@@ -430,7 +448,7 @@ export function handleVestingClaimed_v2(event: VestingClaimed): void {
   }
 }
 
-export function handleVestingClaimed_v3(event: VestingClaimed): void {
+export function handleVestingClaimed_v3(event: VestingClaimed_v2): void {
   const ev = createVestingClaimedEventEntity(event, "v3");
   ev.save();
 
@@ -451,4 +469,38 @@ export function handleVestingClaimed_v3(event: VestingClaimed): void {
     currentVestingSchedule.save();
     cursor.save();
   }
+}
+
+export function handleVestingScheduleTotalAmountUpdated_v3(event: VestingScheduleTotalAmountUpdated_v3): void {
+    // TODO: Implement handler
+    log.debug(
+        "VestingScheduleTotalAmountUpdated_v3 event: superToken: {}, sender: {}, receiver: {}, previousFlowRate: {}, newFlowRate: {}, previousTotalAmount: {}, newTotalAmount: {}, remainderAmount: {}",
+        [
+            event.params.superToken.toHexString(),
+            event.params.sender.toHexString(),
+            event.params.receiver.toHexString(),
+            event.params.previousFlowRate.toString(),
+            event.params.newFlowRate.toString(),
+            event.params.previousTotalAmount.toString(),
+            event.params.newTotalAmount.toString(),
+            event.params.remainderAmount.toString()
+        ]
+    );
+}
+
+export function handleVestingScheduleEndDateUpdated_v3(event: VestingScheduleEndDateUpdated_v3): void {
+    // TODO: Implement handler
+    log.debug(
+        "VestingScheduleEndDateUpdated_v3 event: superToken: {}, sender: {}, receiver: {}, oldEndDate: {}, endDate: {}, previousFlowRate: {}, newFlowRate: {}, remainderAmount: {}",
+        [
+            event.params.superToken.toHexString(),
+            event.params.sender.toHexString(),
+            event.params.receiver.toHexString(),
+            event.params.oldEndDate.toString(),
+            event.params.endDate.toString(),
+            event.params.previousFlowRate.toString(),
+            event.params.newFlowRate.toString(),
+            event.params.remainderAmount.toString()
+        ]
+    );
 }

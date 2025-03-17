@@ -128,5 +128,5 @@ dataSources:
           handler: handleVestingEndFailed_v3
           receipt: true
         - event: VestingClaimed(indexed address,indexed address,indexed address,address)
-
+          handler: handleVestingClaimed_v3
   {{/vestingSchedulerAddress_v3}}

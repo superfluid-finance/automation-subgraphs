@@ -37,6 +37,7 @@ import { createTask } from "../utils/createTask";
 import { createVestingCliffAndFlowExecutedEntity } from "../utils/createVestingCliffAndFlowExecuted";
 import { createVestingEndExecutedEventEntity } from "../utils/createVestingEndExecuted";
 import { createVestingEndFailedEventEntity } from "../utils/createVestingEndFailed";
+import { createVestingScheduleTotalAmountUpdatedEventEntity } from "../utils/createVestingScheduleTotalAmountUpdated";
 
 import {
   createVestingScheduleCreatedEventEntity_v1,
@@ -58,6 +59,7 @@ import {
 import { createVestingClaimedEventEntity } from "../utils/createVestingClaimed";
 
 import { log } from "@graphprotocol/graph-ts"
+import { createVestingScheduleEndDateUpdatedEventEntity } from "../utils/createVestingScheduleEndDateUpdatedEvent";
 
 export function handleVestingCliffAndFlowExecuted_v1(
   event: VestingCliffAndFlowExecuted_v1
@@ -472,35 +474,78 @@ export function handleVestingClaimed_v3(event: VestingClaimed_v2): void {
 }
 
 export function handleVestingScheduleTotalAmountUpdated_v3(event: VestingScheduleTotalAmountUpdated_v3): void {
-    // TODO: Implement handler
-    log.debug(
-        "VestingScheduleTotalAmountUpdated_v3 event: superToken: {}, sender: {}, receiver: {}, previousFlowRate: {}, newFlowRate: {}, previousTotalAmount: {}, newTotalAmount: {}, remainderAmount: {}",
-        [
-            event.params.superToken.toHexString(),
-            event.params.sender.toHexString(),
-            event.params.receiver.toHexString(),
-            event.params.previousFlowRate.toString(),
-            event.params.newFlowRate.toString(),
-            event.params.previousTotalAmount.toString(),
-            event.params.newTotalAmount.toString(),
-            event.params.remainderAmount.toString()
-        ]
-    );
+  const ev = createVestingScheduleTotalAmountUpdatedEventEntity(event, "v3");
+  ev.save();
+
+  const cursor = getOrCreateTokenSenderReceiverCursor(
+    ev.superToken,
+    ev.sender,
+    ev.receiver,
+    "v3"
+  );
+
+  const currentVestingSchedule = getVestingSchedule(cursor);
+
+  if (currentVestingSchedule) {
+    currentVestingSchedule.flowRate = ev.newFlowRate;
+    currentVestingSchedule.remainderAmount = ev.remainderAmount;
+
+    let events = currentVestingSchedule.events;
+    events.push(ev.id);
+    currentVestingSchedule.events = events;
+
+    currentVestingSchedule.save();
+    cursor.save();
+  }
 }
 
 export function handleVestingScheduleEndDateUpdated_v3(event: VestingScheduleEndDateUpdated_v3): void {
-    // TODO: Implement handler
-    log.debug(
-        "VestingScheduleEndDateUpdated_v3 event: superToken: {}, sender: {}, receiver: {}, oldEndDate: {}, endDate: {}, previousFlowRate: {}, newFlowRate: {}, remainderAmount: {}",
-        [
-            event.params.superToken.toHexString(),
-            event.params.sender.toHexString(),
-            event.params.receiver.toHexString(),
-            event.params.oldEndDate.toString(),
-            event.params.endDate.toString(),
-            event.params.previousFlowRate.toString(),
-            event.params.newFlowRate.toString(),
-            event.params.remainderAmount.toString()
-        ]
+  const ev = createVestingScheduleEndDateUpdatedEventEntity(event, "v3");
+  ev.save();
+
+  const cursor = getOrCreateTokenSenderReceiverCursor(
+    ev.superToken,
+    ev.sender,
+    ev.receiver,
+    "v3"
+  );
+
+  const currentVestingSchedule = getVestingSchedule(cursor);
+
+  if (currentVestingSchedule) {
+    currentVestingSchedule.endDate = ev.endDate;
+    currentVestingSchedule.flowRate = event.params.newFlowRate;
+    currentVestingSchedule.remainderAmount = ev.remainderAmount;
+
+    let events = currentVestingSchedule.events;
+    events.push(ev.id);
+    currentVestingSchedule.events = events;
+    
+    const vestingScheduler = VestingScheduler.bind(event.address);
+    const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
+    currentVestingSchedule.endDateValidAt = ev.endDate.minus(endValidBeforeSeconds); // Note: this will be used for the new end vesting task in `createTask`
+
+    // Cancel current/olds end vesting task
+    if (cursor.currentEndVestingTask) {
+      const task = Task.load(cursor.currentEndVestingTask!)!;
+      task.cancelledAt = ev.timestamp;
+      task.save();
+    }
+    // ---
+
+    // Create a new task
+    const newEndVestingTask = createTask(
+      currentVestingSchedule,
+      "ExecuteEndVesting",
+      event.transaction.hash.toHexString(),
+      event.logIndex,
+      "v3"
     );
+    cursor.currentEndVestingTask = newEndVestingTask.id;
+    newEndVestingTask.save();
+    // ---
+    
+    currentVestingSchedule.save();
+    cursor.save();
+  }
 }

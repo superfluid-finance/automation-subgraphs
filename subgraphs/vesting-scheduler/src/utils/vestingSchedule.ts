@@ -6,6 +6,7 @@ import {
   VestingScheduleCreatedEvent,
 } from "./../types/schema";
 import { getContractVersionSuffix } from "./general";
+import { calculateTotalVestedAmount_v1_v2 } from "./calculateTotalVestedAmount";
 
 export function createVestingSchedule(
   ev: VestingScheduleCreatedEvent,
@@ -39,6 +40,14 @@ export function createVestingSchedule(
 
   vestingSchedule.claimValidityDate = ev.claimValidityDate;
   vestingSchedule.remainderAmount = ev.remainderAmount;
+
+  vestingSchedule.totalAmount = calculateTotalVestedAmount_v1_v2(
+    vestingSchedule.cliffAndFlowDate,
+    vestingSchedule.endDate,
+    vestingSchedule.flowRate,
+    vestingSchedule.cliffAmount,
+    vestingSchedule.remainderAmount
+  );
 
   return vestingSchedule;
 }

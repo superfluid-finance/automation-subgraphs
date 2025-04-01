@@ -290,6 +290,9 @@ type VestingSchedule @entity {
   claimValidityDate: BigInt!
   claimedAt: BigInt
   remainderAmount: BigInt!
+
+  # V3 properties
+  totalAmount: BigInt!
 }
 
 type TokenSenderReceiverCursor @entity {

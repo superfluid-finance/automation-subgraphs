@@ -1,6 +1,6 @@
 {
   "name": "vesting-scheduler-subgraph",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A subgraph for the vesting scheduler contracts",
   "keywords": [
     "subgraph"
@@ -9,7 +9,7 @@
   "author": "Superfluid",
   "scripts": {
     "build": "graph build ./optimism-sepolia.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.1.1 --path ./build",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-sepolia/1.1.2 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",

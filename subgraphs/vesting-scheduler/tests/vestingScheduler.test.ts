@@ -31,6 +31,8 @@ import {
   createNewVestingCliffAndFlowExecutedEvent,
   createNewVestingEndExecutedEvent,
   createNewVestingEndFailedEvent,
+  createNewVestingScheduleEndDateUpdatedEvent,
+  createNewVestingScheduleTotalAmountUpdatedEvent,
   createNewVestingScheduleUpdatedEvent,
 } from "./vestingScheduler.helper";
 
@@ -351,6 +353,156 @@ describe("Host Mapper Unit Tests", () => {
           id,
           "endDate",
           endDate.toString()
+        );
+      });
+
+      test("handleVestingScheduleTotalAmountUpdated() - Should create a new VestingScheduleTotalAmountUpdatedEvent entity", () => {
+        const previousFlowRate = BigInt.fromI32(100);
+        const newFlowRate = BigInt.fromI32(150);
+        const previousTotalAmount = BigInt.fromI32(10000);
+        const newTotalAmount = BigInt.fromI32(15000);
+        const remainderAmount = BigInt.fromI32(500);
+
+        const event = createNewVestingScheduleTotalAmountUpdatedEvent(
+          superToken,
+          sender,
+          receiver,
+          previousFlowRate,
+          newFlowRate,
+          previousTotalAmount,
+          newTotalAmount,
+          remainderAmount
+        );
+
+        handleVestingScheduleTotalAmountUpdated_v3(event);
+
+        const id = assertEventBaseProperties(
+          event,
+          "VestingScheduleTotalAmountUpdated",
+          "v3"
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "superToken",
+          superToken
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent", 
+          id, 
+          "sender", 
+          sender
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent", 
+          id, 
+          "receiver", 
+          receiver
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "previousFlowRate",
+          previousFlowRate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "newFlowRate",
+          newFlowRate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "previousTotalAmount",
+          previousTotalAmount.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "newTotalAmount",
+          newTotalAmount.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleTotalAmountUpdatedEvent",
+          id,
+          "remainderAmount",
+          remainderAmount.toString()
+        );
+      });
+
+      test("handleVestingScheduleEndDateUpdated() - Should create a new VestingScheduleEndDateUpdatedEvent entity", () => {
+        const oldEndDate = BigInt.fromI32(150);
+        const newEndDate = BigInt.fromI32(200);
+        const previousFlowRate = BigInt.fromI32(100);
+        const newFlowRate = BigInt.fromI32(75);
+        const remainderAmount = BigInt.fromI32(300);
+
+        const event = createNewVestingScheduleEndDateUpdatedEvent(
+          superToken,
+          sender,
+          receiver,
+          oldEndDate,
+          newEndDate,
+          previousFlowRate,
+          newFlowRate,
+          remainderAmount
+        );
+
+        handleVestingScheduleEndDateUpdated_v3(event);
+
+        const id = assertEventBaseProperties(
+          event,
+          "VestingScheduleEndDateUpdated",
+          "v3"
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "superToken",
+          superToken
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent", 
+          id, 
+          "sender", 
+          sender
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent", 
+          id, 
+          "receiver", 
+          receiver
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "oldEndDate",
+          oldEndDate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "endDate",
+          newEndDate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "previousFlowRate",
+          previousFlowRate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "newFlowRate",
+          newFlowRate.toString()
+        );
+        assert.fieldEquals(
+          "VestingScheduleEndDateUpdatedEvent",
+          id,
+          "remainderAmount",
+          remainderAmount.toString()
         );
       });
     });

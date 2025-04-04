@@ -21,6 +21,8 @@ export function createVestingScheduleEndDateUpdatedEventEntity(
   ev.oldEndDate = event.params.oldEndDate;
   ev.endDate = event.params.endDate;
   ev.remainderAmount = event.params.remainderAmount;
-
+  ev.previousFlowRate = event.params.previousFlowRate;
+  ev.newFlowRate = event.params.newFlowRate;
+  
   return ev;
 }

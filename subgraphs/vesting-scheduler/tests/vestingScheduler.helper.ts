@@ -6,11 +6,15 @@ import {
   VestingEndFailed,
   VestingScheduleCreated,
   VestingScheduleDeleted,
-  VestingScheduleUpdated
+  VestingScheduleUpdated,
 } from "../src/types/VestingScheduler/VestingScheduler";
 import {
   VestingClaimed
 } from "../src/types/VestingScheduler_v2/VestingScheduler";
+import {
+  VestingScheduleTotalAmountUpdated,
+  VestingScheduleEndDateUpdated
+} from "../src/types/VestingScheduler_v3/VestingScheduler";
 import {
   getAddressEventParam,
   getBigIntEventParam,
@@ -157,6 +161,54 @@ export function createNewVestingClaimedEvent(
   event.parameters.push(getAddressEventParam("sender", sender));
   event.parameters.push(getAddressEventParam("receiver", receiver));
   event.parameters.push(getAddressEventParam("claimer", claimer));
+
+  return event;
+}
+
+export function createNewVestingScheduleTotalAmountUpdatedEvent(
+  superToken: string,
+  sender: string,
+  receiver: string,
+  previousFlowRate: BigInt,
+  newFlowRate: BigInt,
+  previousTotalAmount: BigInt,
+  newTotalAmount: BigInt,
+  remainderAmount: BigInt
+): VestingScheduleTotalAmountUpdated {
+  const event = changetype<VestingScheduleTotalAmountUpdated>(newMockEvent());
+  event.parameters = new Array();
+  event.parameters.push(getAddressEventParam("superToken", superToken));
+  event.parameters.push(getAddressEventParam("sender", sender));
+  event.parameters.push(getAddressEventParam("receiver", receiver));
+  event.parameters.push(getBigIntEventParam("previousFlowRate", previousFlowRate));
+  event.parameters.push(getBigIntEventParam("newFlowRate", newFlowRate));
+  event.parameters.push(getBigIntEventParam("previousTotalAmount", previousTotalAmount));
+  event.parameters.push(getBigIntEventParam("newTotalAmount", newTotalAmount));
+  event.parameters.push(getBigIntEventParam("remainderAmount", remainderAmount));
+
+  return event;
+}
+
+export function createNewVestingScheduleEndDateUpdatedEvent(
+  superToken: string,
+  sender: string,
+  receiver: string,
+  oldEndDate: BigInt,
+  endDate: BigInt,
+  previousFlowRate: BigInt,
+  newFlowRate: BigInt,
+  remainderAmount: BigInt
+): VestingScheduleEndDateUpdated {
+  const event = changetype<VestingScheduleEndDateUpdated>(newMockEvent());
+  event.parameters = new Array();
+  event.parameters.push(getAddressEventParam("superToken", superToken));
+  event.parameters.push(getAddressEventParam("sender", sender));
+  event.parameters.push(getAddressEventParam("receiver", receiver));
+  event.parameters.push(getBigIntEventParam("oldEndDate", oldEndDate));
+  event.parameters.push(getBigIntEventParam("endDate", endDate));
+  event.parameters.push(getBigIntEventParam("previousFlowRate", previousFlowRate));
+  event.parameters.push(getBigIntEventParam("newFlowRate", newFlowRate));
+  event.parameters.push(getBigIntEventParam("remainderAmount", remainderAmount));
 
   return event;
 }

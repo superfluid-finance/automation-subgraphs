@@ -16,6 +16,8 @@ import {
   handleVestingScheduleCreated_v2,
   handleVestingScheduleDeleted_v1,
   handleVestingScheduleUpdated_v1,
+  handleVestingScheduleTotalAmountUpdated_v3,
+  handleVestingScheduleEndDateUpdated_v3,
 } from "../src/mappings/vestingScheduler";
 import { Task } from "../src/types/schema";
 import { getOrCreateTokenSenderReceiverCursor } from "../src/utils/tokenSenderReceiverCursor";

@@ -59,7 +59,6 @@ import {
 } from "../utils/vestingSchedule";
 import { createVestingClaimedEventEntity } from "../utils/createVestingClaimed";
 
-import { log } from "@graphprotocol/graph-ts"
 import { createVestingScheduleEndDateUpdatedEventEntity } from "../utils/createVestingScheduleEndDateUpdatedEvent";
 import { calculateTotalVestedAmount_v1_v2 } from "../utils/calculateTotalVestedAmount";
 
@@ -110,7 +109,6 @@ function _handleVestingCliffAndFlowExecuted(
       const task = Task.load(cursor.currentCliffAndFlowTask!)!;
 
       task.executedAt = event.block.timestamp;
-
       task.save();
     }
 
@@ -189,8 +187,8 @@ function _handleVestingScheduleCreated(
   cursor.currentVestingSchedule = currentVestingSchedule.id;
   cursor.currentEndVestingTask = endVestingTask.id;
 
-  currentVestingSchedule.save();
   cursor.save();
+  currentVestingSchedule.save();
   endVestingTask.save();
 }
 

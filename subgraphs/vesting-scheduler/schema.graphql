@@ -262,7 +262,7 @@ enum ContractVersion {
   v3
 }
 
-type VestingSchedule @entity {
+type VestingSchedule @entity(immutable: false) {
   id: String!
   contractVersion: ContractVersion!
   createdAt: BigInt!
@@ -295,7 +295,7 @@ type VestingSchedule @entity {
   totalAmount: BigInt!
 }
 
-type TokenSenderReceiverCursor @entity {
+type TokenSenderReceiverCursor @entity(immutable: false) {
   id: String!
   currentVestingSchedule: VestingSchedule
   currentCliffAndFlowTask: Task
@@ -307,7 +307,7 @@ enum TaskType {
   ExecuteEndVesting
 }
 
-type Task @entity {
+type Task @entity(immutable: false) {
   id: ID!
   type: TaskType!
   executedAt: BigInt

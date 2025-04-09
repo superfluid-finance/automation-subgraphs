@@ -128,7 +128,7 @@ type DeleteFlowExecutedEvent implements Event @entity(immutable: true) {
   userData: Bytes!
 }
 
-type TokenSenderReceiverCursor @entity {
+type TokenSenderReceiverCursor @entity(immutable: false) {
   id: String!
   currentCreateFlowTask: CreateTask
   currentDeleteFlowTask: DeleteTask
@@ -153,7 +153,7 @@ interface Task {
   receiver: Bytes!
 }
 
-type CreateTask implements Task @entity {
+type CreateTask implements Task @entity(immutable: false) {
   id: ID!
   type: TaskType!
 
@@ -173,7 +173,7 @@ type CreateTask implements Task @entity {
   flowRate: BigInt!
 }
 
-type DeleteTask implements Task @entity {
+type DeleteTask implements Task @entity(immutable: false) {
   id: ID!
   type: TaskType!
 

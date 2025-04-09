@@ -9,21 +9,21 @@ importers:
   .:
     devDependencies:
       '@goldskycom/cli':
-        specifier: ^8.7.0
-        version: 8.9.1
+        specifier: ^12.0.0
+        version: 12.0.0
 
 packages:
 
-  '@goldskycom/cli@8.9.1':
-    resolution: {integrity: sha512-Ks2Z4aCG1r4kMASZZRjm7s1tCIFkOSbp7dqYdqvjTZDZWGicwOQYeSaGgLeam1cC7iOGbYueVMQWVYqoaEiV4w==}
+  '@goldskycom/cli@12.0.0':
+    resolution: {integrity: sha512-JoDNNwJG8rWs38qnxtPgefPp8PIssQCPj2fRyQmJmwiVfQ4Rx48eODtueIczusI2sSGryXxMDRBZGgyelrjh8w==}
     hasBin: true
 
   cuid@2.1.8:
     resolution: {integrity: sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==}
     deprecated: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.
 
-  parse-duration@1.1.0:
-    resolution: {integrity: sha512-z6t9dvSJYaPoQq7quMzdEagSFtpGu+utzHqqxmpVWNNZRIXnvqyCvn9XsTdh7c/w0Bqmdz3RB3YnRaKtpRtEXQ==}
+  parse-duration@1.1.2:
+    resolution: {integrity: sha512-p8EIONG8L0u7f8GFgfVlL4n8rnChTt8O5FSxgxMz2tjc9FMP199wxVKVB6IbKx11uTbKHACSvaLVIKNnoeNR/A==}
 
   readline-sync@1.4.10:
     resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
@@ -34,16 +34,16 @@ packages:
 
 snapshots:
 
-  '@goldskycom/cli@8.9.1':
+  '@goldskycom/cli@12.0.0':
     dependencies:
       cuid: 2.1.8
-      parse-duration: 1.1.0
+      parse-duration: 1.1.2
       readline-sync: 1.4.10
       timeago.js: 4.0.2
 
   cuid@2.1.8: {}
 
-  parse-duration@1.1.0: {}
+  parse-duration@1.1.2: {}
 
   readline-sync@1.4.10: {}
 

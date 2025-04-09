@@ -15,5 +15,9 @@
   },
   "overrides": {
     "assemblyscript": "0.19.23"
+  },
+  "packageManager": "pnpm@10.8.0",
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -122,15 +122,11 @@ dataSources:
           handler: handleVestingScheduleCreated_v3
         - event: VestingScheduleDeleted(indexed address,indexed address,indexed address)
           handler: handleVestingScheduleDeleted_v3
-        - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint32,uint96)
+        - event: VestingScheduleUpdated(indexed address,indexed address,indexed address,uint32,uint96,int96,uint256,uint256)
           handler: handleVestingScheduleUpdated_v3
         - event: VestingEndFailed(indexed address,indexed address,indexed address,uint32)
           handler: handleVestingEndFailed_v3
           receipt: true
         - event: VestingClaimed(indexed address,indexed address,indexed address,address)
           handler: handleVestingClaimed_v3
-        - event: VestingScheduleTotalAmountUpdated(indexed address,indexed address,indexed address,int96,int96,uint256,uint256,uint96)
-          handler: handleVestingScheduleTotalAmountUpdated_v3
-        - event: VestingScheduleEndDateUpdated(indexed address,indexed address,indexed address,uint32,uint32,int96,int96,uint96)
-          handler: handleVestingScheduleEndDateUpdated_v3
   {{/vestingSchedulerAddress_v3}}

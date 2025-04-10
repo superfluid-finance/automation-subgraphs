@@ -42,11 +42,6 @@
     },
     {
         "inputs": [],
-        "name": "HostInvalid",
-        "type": "error"
-    },
-    {
-        "inputs": [],
         "name": "InvalidNewTotalAmount",
         "type": "error"
     },
@@ -350,122 +345,6 @@
             {
                 "indexed": false,
                 "internalType": "uint32",
-                "name": "oldEndDate",
-                "type": "uint32"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint32",
-                "name": "endDate",
-                "type": "uint32"
-            },
-            {
-                "indexed": false,
-                "internalType": "int96",
-                "name": "previousFlowRate",
-                "type": "int96"
-            },
-            {
-                "indexed": false,
-                "internalType": "int96",
-                "name": "newFlowRate",
-                "type": "int96"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint96",
-                "name": "remainderAmount",
-                "type": "uint96"
-            }
-        ],
-        "name": "VestingScheduleEndDateUpdated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "int96",
-                "name": "previousFlowRate",
-                "type": "int96"
-            },
-            {
-                "indexed": false,
-                "internalType": "int96",
-                "name": "newFlowRate",
-                "type": "int96"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "previousTotalAmount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "newTotalAmount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint96",
-                "name": "remainderAmount",
-                "type": "uint96"
-            }
-        ],
-        "name": "VestingScheduleTotalAmountUpdated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint32",
-                "name": "oldEndDate",
-                "type": "uint32"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint32",
                 "name": "endDate",
                 "type": "uint32"
             },
@@ -474,6 +353,24 @@
                 "internalType": "uint96",
                 "name": "remainderAmount",
                 "type": "uint96"
+            },
+            {
+                "indexed": false,
+                "internalType": "int96",
+                "name": "flowRate",
+                "type": "int96"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "totalAmount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "settledAmount",
+                "type": "uint256"
             }
         ],
         "name": "VestingScheduleUpdated",
@@ -535,7 +432,7 @@
         "inputs": [
             {
                 "internalType": "bytes32",
-                "name": "",
+                "name": "vestingId",
                 "type": "bytes32"
             }
         ],
@@ -543,304 +440,16 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "alreadyVestedAmount",
+                "name": "settledAmount",
                 "type": "uint256"
             },
             {
                 "internalType": "uint256",
-                "name": "lastUpdated",
+                "name": "settledDate",
                 "type": "uint256"
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "afterAgreementCreated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "afterAgreementTerminated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "afterAgreementUpdated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "beforeAgreementCreated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "beforeAgreementTerminated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            },
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "name": "beforeAgreementUpdated",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "totalAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint32",
-                "name": "totalDuration",
-                "type": "uint32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
-            }
-        ],
-        "name": "createAndExecuteVestingScheduleFromAmountAndDuration",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -955,193 +564,10 @@
                 "internalType": "uint32",
                 "name": "endDate",
                 "type": "uint32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
             }
         ],
         "name": "createVestingSchedule",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "internalType": "uint32",
-                "name": "startDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "cliffDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "int96",
-                "name": "flowRate",
-                "type": "int96"
-            },
-            {
-                "internalType": "uint256",
-                "name": "cliffAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint32",
-                "name": "endDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "claimValidityDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
-            }
-        ],
-        "name": "createVestingSchedule",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "totalAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint32",
-                "name": "totalDuration",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "startDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "cliffPeriod",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "claimPeriod",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint256",
-                "name": "cliffAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
-            }
-        ],
-        "name": "createVestingScheduleFromAmountAndDuration",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ISuperToken",
-                "name": "superToken",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "receiver",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "totalAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint32",
-                "name": "totalDuration",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "startDate",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "cliffPeriod",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint32",
-                "name": "claimPeriod",
-                "type": "uint32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
-            }
-        ],
-        "name": "createVestingScheduleFromAmountAndDuration",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -1247,21 +673,10 @@
                 "internalType": "address",
                 "name": "receiver",
                 "type": "address"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
             }
         ],
         "name": "deleteVestingSchedule",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -1345,7 +760,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "",
+                "name": "maxNeededAllowance",
                 "type": "uint256"
             }
         ],
@@ -1387,7 +802,7 @@
                         "type": "uint32"
                     }
                 ],
-                "internalType": "struct IVestingSchedulerV2.VestingSchedule",
+                "internalType": "struct IVestingSchedulerV3.VestingSchedule",
                 "name": "schedule",
                 "type": "tuple"
             }
@@ -1396,7 +811,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "",
+                "name": "maxNeededAllowance",
                 "type": "uint256"
             }
         ],
@@ -1485,8 +900,8 @@
                         "type": "uint32"
                     }
                 ],
-                "internalType": "struct IVestingSchedulerV2.VestingSchedule",
-                "name": "",
+                "internalType": "struct IVestingSchedulerV3.VestingSchedule",
+                "name": "schedule",
                 "type": "tuple"
             }
         ],
@@ -1505,7 +920,7 @@
         "outputs": [
             {
                 "internalType": "bool",
-                "name": "",
+                "name": "isForwarderTrusted",
                 "type": "bool"
             }
         ],
@@ -1615,7 +1030,7 @@
                         "type": "uint96"
                     }
                 ],
-                "internalType": "struct IVestingSchedulerV2.ScheduleCreationParams",
+                "internalType": "struct IVestingSchedulerV3.ScheduleCreationParams",
                 "name": "params",
                 "type": "tuple"
             }
@@ -1721,7 +1136,7 @@
                         "type": "uint96"
                     }
                 ],
-                "internalType": "struct IVestingSchedulerV2.ScheduleCreationParams",
+                "internalType": "struct IVestingSchedulerV3.ScheduleCreationParams",
                 "name": "params",
                 "type": "tuple"
             }
@@ -1743,23 +1158,12 @@
             },
             {
                 "internalType": "uint32",
-                "name": "endDate",
+                "name": "newEndDate",
                 "type": "uint32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "ctx",
-                "type": "bytes"
             }
         ],
         "name": "updateVestingSchedule",
-        "outputs": [
-            {
-                "internalType": "bytes",
-                "name": "newCtx",
-                "type": "bytes"
-            }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -1828,7 +1232,7 @@
             },
             {
                 "internalType": "uint32",
-                "name": "endDate",
+                "name": "newEndDate",
                 "type": "uint32"
             }
         ],
@@ -1843,7 +1247,7 @@
         "outputs": [
             {
                 "internalType": "string",
-                "name": "",
+                "name": "version",
                 "type": "string"
             }
         ],
@@ -1854,7 +1258,7 @@
         "inputs": [
             {
                 "internalType": "bytes32",
-                "name": "",
+                "name": "vestingId",
                 "type": "bytes32"
             }
         ],

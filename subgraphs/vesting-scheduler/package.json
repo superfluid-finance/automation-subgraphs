@@ -9,7 +9,7 @@
   "author": "Superfluid",
   "scripts": {
     "build": "graph build ./optimism-mainnet.subgraph.yaml",
-    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-mainnet/1.1.2 --path ./build",
+    "deploy:test": "goldsky subgraph deploy vesting-v1-optimism-mainnet/1.1.3 --path ./build",
     "dev": "nodemon -e ts -x yarn test",
     "gen": "npm-run-all -s gen:yaml gen:types",
     "gen:types": "graph codegen ./optimism-sepolia.subgraph.yaml --output-dir src/types/",

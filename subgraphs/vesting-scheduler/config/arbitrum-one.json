@@ -1,5 +1,7 @@
 {
   "network": "arbitrum-one",
   "vestingSchedulerAddress": "0x55c8fc400833eEa791087cF343Ff2409A39DeBcC",
-  "vestingSchedulerStartBlock": 53448990
+  "vestingSchedulerStartBlock": 53448990,
+  "vestingSchedulerAddress_v3": "0xc3069bDE869912E3d9B965F35D7764Fc92BccE67",
+  "vestingSchedulerStartBlock_v3": 329738474
 }

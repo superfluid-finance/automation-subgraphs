@@ -1,5 +1,7 @@
 {
   "network": "matic",
   "vestingSchedulerAddress": "0xcFE6382B33F2AdaFbE46e6A26A88E0182ae32b0c",
-  "vestingSchedulerStartBlock": 38148531
+  "vestingSchedulerStartBlock": 38148531,
+  "vestingSchedulerAddress_v3": "0x488913833474bbD9B11f844FdC2f0897FAc0Ca43",
+  "vestingSchedulerStartBlock_v3": 70698009
 }

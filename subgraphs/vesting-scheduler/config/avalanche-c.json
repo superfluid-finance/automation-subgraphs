@@ -1,5 +1,7 @@
 {
   "network": "avalanche",
   "vestingSchedulerAddress": "0x3fA8B653F9abf91428800C0ba0F8D145a71F97A1",
-  "vestingSchedulerStartBlock": 25012325
+  "vestingSchedulerStartBlock": 25012325,
+  "vestingSchedulerAddress_v3": "0xB84C98d9B51D0e32114C60C500e17eA79dfd0dAf",
+  "vestingSchedulerStartBlock_v3": 60861580
 }

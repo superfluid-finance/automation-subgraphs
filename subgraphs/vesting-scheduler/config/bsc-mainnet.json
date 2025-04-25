@@ -1,5 +1,7 @@
 {
   "network": "bsc",
   "vestingSchedulerAddress": "0x9B91c27f78376383003C6A12Ad12B341d016C5b9",
-  "vestingSchedulerStartBlock": 24833789
+  "vestingSchedulerStartBlock": 24833789,
+  "vestingSchedulerAddress_v3": "0xa032265Ee9dE740D36Af6eb90cf18775577B1Ef3",
+  "vestingSchedulerStartBlock_v3": 48640113
 }

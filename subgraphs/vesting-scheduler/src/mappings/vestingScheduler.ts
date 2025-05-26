@@ -288,7 +288,7 @@ export function handleVestingScheduleUpdated_v2(
 export function handleVestingScheduleUpdated_v3(
   event: VestingScheduleUpdated_v3
 ): void {
-  const cursor = getOrCreateTokenSenderReceiverCursor(event.params.superToken, event.params.sender, event.params.receiver, "v2");
+  const cursor = getOrCreateTokenSenderReceiverCursor(event.params.superToken, event.params.sender, event.params.receiver, "v3");
   const currentVestingSchedule = getVestingSchedule(cursor)!;
   
   const storedEvent = createVestingUpdatedEntity_v3(event, "v3", currentVestingSchedule);

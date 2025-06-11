@@ -517,7 +517,7 @@ function settleBeforeOtherUpdates(vestingSchedule: VestingSchedule | null, times
     ? vestingSchedule.cliffAndFlowDate 
     : vestingSchedule.settledAt;
   
-  if (timestamp.gt(vestingSchedule.endDate)) {
+  if (timestamp.gt(vestingSchedule.endDateValidAt)) {
     settledAmount = vestingSchedule.totalAmount;
   } else {
     const elapsedTime = timestamp.minus(lastSettledAt);

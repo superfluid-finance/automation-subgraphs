@@ -13,6 +13,7 @@ export function createDeleteFlowExecutedEventEntity(
   ev = setBaseProperties("DeleteFlowExecutedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as DeleteFlowExecutedEvent;
 
   ev.superToken = event.params.superToken;

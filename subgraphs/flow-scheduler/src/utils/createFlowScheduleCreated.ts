@@ -12,6 +12,7 @@ export function createFlowScheduleCreatedEventEntity(
   ev = setBaseProperties("FlowScheduleCreatedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as FlowScheduleCreatedEvent;
 
   ev.superToken = event.params.superToken;

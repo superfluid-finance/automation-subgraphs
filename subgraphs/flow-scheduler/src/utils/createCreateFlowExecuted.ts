@@ -13,6 +13,7 @@ export function createCreateFlowExecutedEventEntity(
   ev = setBaseProperties("CreateFlowExecutedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as CreateFlowExecutedEvent;
 
   ev.superToken = event.params.superToken;

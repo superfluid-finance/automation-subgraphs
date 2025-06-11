@@ -311,6 +311,7 @@ function _handleVestingScheduleUpdated(
 
   currentVestingSchedule.endDate = storedEvent.endDate;
   currentVestingSchedule.remainderAmount = BigInt.fromI32(0);
+  currentVestingSchedule.flowRate = storedEvent.flowRate;
 
   let events = currentVestingSchedule.events;
   events.push(storedEvent.id);

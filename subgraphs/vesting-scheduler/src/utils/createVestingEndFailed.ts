@@ -14,6 +14,7 @@ export function createVestingEndFailedEventEntity(
   ev = setBaseProperties("VestingEndFailedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingEndFailedEvent;
 
   ev.superToken = event.params.superToken;

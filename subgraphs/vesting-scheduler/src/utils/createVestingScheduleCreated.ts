@@ -15,6 +15,7 @@ export function createVestingScheduleCreatedEventEntity_v3(
   ev = setBaseProperties("VestingScheduleCreatedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingScheduleCreatedEvent;
 
   ev.superToken = event.params.superToken;
@@ -43,6 +44,7 @@ export function createVestingScheduleCreatedEventEntity_v2(
   ev = setBaseProperties("VestingScheduleCreatedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingScheduleCreatedEvent;
 
   ev.superToken = event.params.superToken;
@@ -71,6 +73,7 @@ export function createVestingScheduleCreatedEventEntity_v1(
   ev = setBaseProperties("VestingScheduleCreatedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingScheduleCreatedEvent;
 
   ev.superToken = event.params.superToken;

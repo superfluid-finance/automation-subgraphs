@@ -13,6 +13,7 @@ export function createVestingClaimedEventEntity(
   ev = setBaseProperties("VestingClaimedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingClaimedEvent;
 
   ev.superToken = event.params.superToken;

@@ -12,6 +12,7 @@ export function createFlowScheduleDeletedEventEntity(
   ev = setBaseProperties("FlowScheduleDeletedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as FlowScheduleDeletedEvent;
 
   ev.superToken = event.params.superToken;

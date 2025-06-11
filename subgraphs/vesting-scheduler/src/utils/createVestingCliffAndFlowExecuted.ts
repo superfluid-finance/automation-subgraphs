@@ -14,6 +14,7 @@ export function createVestingCliffAndFlowExecutedEntity(
   ev = setBaseProperties("VestingCliffAndFlowExecutedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingCliffAndFlowExecutedEvent;
 
   ev.superToken = event.params.superToken;

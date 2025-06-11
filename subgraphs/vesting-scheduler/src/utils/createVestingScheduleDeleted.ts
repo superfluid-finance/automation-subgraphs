@@ -13,6 +13,7 @@ export function createVestingScheduleDeletedEventEntity(
   ev = setBaseProperties("VestingScheduleDeletedEvent", event, ev, [
     event.params.sender,
     event.params.receiver,
+    event.params.superToken,
   ]) as VestingScheduleDeletedEvent;
 
   ev.sender = event.params.sender;

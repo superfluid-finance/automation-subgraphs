@@ -49,6 +49,9 @@ export function createVestingSchedule(
     vestingSchedule.remainderAmount
   );
 
+  vestingSchedule.settledAmount = BigInt.zero();
+  vestingSchedule.settledAt = BigInt.zero();
+
   return vestingSchedule;
 }
 

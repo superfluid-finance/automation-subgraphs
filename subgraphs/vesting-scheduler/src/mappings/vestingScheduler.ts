@@ -92,7 +92,7 @@ function _handleVestingCliffAndFlowExecuted(
     contractVersion
   );
 
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.cliffAndFlowExecutedAt = ev.timestamp;
@@ -221,7 +221,7 @@ function _handleVestingScheduleDeleted(
     ev.receiver,
     contractVersion
   );
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.deletedAt = ev.timestamp;
@@ -307,7 +307,7 @@ function _handleVestingScheduleUpdated(
   const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
 
   const cursor = getOrCreateTokenSenderReceiverCursor(storedEvent.superToken, storedEvent.sender, storedEvent.receiver, contractVersion);
-  const currentVestingSchedule = getVestingSchedule(cursor)!;
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), event.block.timestamp)!;
 
   currentVestingSchedule.endDate = storedEvent.endDate;
   currentVestingSchedule.remainderAmount = BigInt.fromI32(0);
@@ -375,7 +375,7 @@ function _handleVestingEndExecuted(
     ev.receiver,
     contractVersion
   );
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.endExecutedAt = ev.timestamp;
@@ -428,7 +428,7 @@ function _handleVestingEndFailed(
     contractVersion
   );
 
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.endExecutedAt = null;
@@ -464,7 +464,7 @@ export function handleVestingClaimed_v2(event: VestingClaimed_v2): void {
     "v2"
   );
 
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.claimedAt = ev.timestamp;
@@ -487,7 +487,7 @@ export function handleVestingClaimed_v3(event: VestingClaimed_v2): void {
     "v3"
   );
 
-  const currentVestingSchedule = getVestingSchedule(cursor);
+  const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), ev.timestamp);
 
   if (currentVestingSchedule) {
     currentVestingSchedule.claimedAt = ev.timestamp;
@@ -499,101 +499,34 @@ export function handleVestingClaimed_v3(event: VestingClaimed_v2): void {
   }
 }
 
-// export function handleVestingScheduleTotalAmountUpdated_v3(event: VestingScheduleTotalAmountUpdated_v3): void {
-//   const ev = createVestingScheduleTotalAmountUpdatedEventEntity(event, "v3");
-//   ev.save();
+function settleBeforeOtherUpdates(vestingSchedule: VestingSchedule | null, timestamp: BigInt): VestingSchedule | null {
+  if (vestingSchedule === null) {
+    return null;
+  }
 
-//   const cursor = getOrCreateTokenSenderReceiverCursor(
-//     ev.superToken,
-//     ev.sender,
-//     ev.receiver,
-//     "v3"
-//   );
+  if (timestamp.lt(vestingSchedule.cliffAndFlowDate)) {
+    return vestingSchedule;
+  }
 
-//   const currentVestingSchedule = getVestingSchedule(cursor);
+  const isFirstSettle = vestingSchedule.settledAt.equals(BigInt.zero());
+  let settledAmount = isFirstSettle 
+    ? vestingSchedule.cliffAmount 
+    : vestingSchedule.settledAmount;
 
-//   if (currentVestingSchedule) {
-//     currentVestingSchedule.flowRate = ev.newFlowRate;
-//     currentVestingSchedule.remainderAmount = ev.remainderAmount;
+  const lastSettledAt = isFirstSettle
+    ? vestingSchedule.cliffAndFlowDate 
+    : vestingSchedule.settledAt;
+  
+  if (timestamp.gt(vestingSchedule.endDate)) {
+    settledAmount = vestingSchedule.totalAmount;
+  } else {
+    const elapsedTime = timestamp.minus(lastSettledAt);
+    const amountFlowed = vestingSchedule.flowRate.times(elapsedTime);
+    settledAmount = settledAmount.plus(amountFlowed);
+  }
 
-//     let events = currentVestingSchedule.events;
-//     events.push(ev.id);
-//     currentVestingSchedule.events = events;
+  vestingSchedule.settledAmount = settledAmount;
+  vestingSchedule.settledAt = timestamp;
 
-//     // Update the total amount
-//     const vestingScheduler = VestingScheduler_v3.bind(event.address);
-
-//     const totalVestedAmount =
-//       vestingScheduler.getTotalVestedAmount(
-//         Address.fromBytes(currentVestingSchedule.superToken),
-//         Address.fromBytes(currentVestingSchedule.sender),
-//         Address.fromBytes(currentVestingSchedule.receiver)
-//       );
-//     currentVestingSchedule.totalAmount = totalVestedAmount;
-//     // ---
-
-//     currentVestingSchedule.save();
-//     cursor.save();
-//   }
-// }
-
-// export function handleVestingScheduleEndDateUpdated_v3(event: VestingScheduleEndDateUpdated_v3): void {
-//   const ev = createVestingScheduleEndDateUpdatedEventEntity(event, "v3");
-//   ev.save();
-
-//   const cursor = getOrCreateTokenSenderReceiverCursor(
-//     ev.superToken,
-//     ev.sender,
-//     ev.receiver,
-//     "v3"
-//   );
-
-//   const currentVestingSchedule = getVestingSchedule(cursor);
-
-//   if (currentVestingSchedule) {
-//     currentVestingSchedule.endDate = ev.endDate;
-//     currentVestingSchedule.flowRate = event.params.newFlowRate;
-//     currentVestingSchedule.remainderAmount = ev.remainderAmount;
-
-//     let events = currentVestingSchedule.events;
-//     events.push(ev.id);
-//     currentVestingSchedule.events = events;
-
-//     const vestingScheduler = VestingScheduler_v3.bind(event.address);
-//     const endValidBeforeSeconds = vestingScheduler.END_DATE_VALID_BEFORE();
-//     currentVestingSchedule.endDateValidAt = ev.endDate.minus(endValidBeforeSeconds); // Note: this will be used for the new end vesting task in `createTask`
-
-//     // Cancel current/olds end vesting task
-//     if (cursor.currentEndVestingTask) {
-//       const task = Task.load(cursor.currentEndVestingTask!)!;
-//       task.cancelledAt = ev.timestamp;
-//       task.save();
-//     }
-//     // ---
-
-//     // Create a new task
-//     const newEndVestingTask = createTask(
-//       currentVestingSchedule,
-//       "ExecuteEndVesting",
-//       event.transaction.hash.toHexString(),
-//       event.logIndex,
-//       "v3"
-//     );
-//     cursor.currentEndVestingTask = newEndVestingTask.id;
-//     newEndVestingTask.save();
-//     // ---
-
-//     // Update the total amount
-//     const totalVestedAmount =
-//       vestingScheduler.getTotalVestedAmount(
-//         Address.fromBytes(currentVestingSchedule.superToken),
-//         Address.fromBytes(currentVestingSchedule.sender),
-//         Address.fromBytes(currentVestingSchedule.receiver)
-//       );
-//     currentVestingSchedule.totalAmount = totalVestedAmount;
-//     // ---
-
-//     currentVestingSchedule.save();
-//     cursor.save();
-//   }
-// }
+  return vestingSchedule;
+}

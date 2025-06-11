@@ -250,7 +250,9 @@ enum ContractVersion {
 type VestingSchedule @entity(immutable: false) {
   id: String!
   contractVersion: ContractVersion!
+
   createdAt: BigInt!
+  
   superToken: Bytes!
   sender: Bytes!
   receiver: Bytes!
@@ -278,6 +280,8 @@ type VestingSchedule @entity(immutable: false) {
 
   # V3 properties
   totalAmount: BigInt!
+  settledAmount: BigInt!
+  settledAt: BigInt!
 }
 
 type TokenSenderReceiverCursor @entity(immutable: false) {

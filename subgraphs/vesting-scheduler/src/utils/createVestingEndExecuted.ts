@@ -27,8 +27,6 @@ export function createVestingEndExecutedEventEntity(
   const receipt = event.receipt;
   if (receipt) {
     ev.gasUsed = receipt.gasUsed;
-  } else {
-      log.critical("receipt MUST NOT be null, set `receipt: true` under `eventHandlers` in the manifest file", []);
   }
 
   return ev;

@@ -310,6 +310,7 @@ function _handleVestingScheduleUpdated(
   const currentVestingSchedule = settleBeforeOtherUpdates(getVestingSchedule(cursor), event.block.timestamp)!;
 
   currentVestingSchedule.endDate = storedEvent.endDate;
+  currentVestingSchedule.endDateValidAt = storedEvent.endDate.minus(endValidBeforeSeconds);
   currentVestingSchedule.remainderAmount = BigInt.fromI32(0);
   currentVestingSchedule.flowRate = storedEvent.flowRate;
 
@@ -527,6 +528,7 @@ function settleBeforeOtherUpdates(vestingSchedule: VestingSchedule | null, times
 
   vestingSchedule.settledAmount = settledAmount;
   vestingSchedule.settledAt = timestamp;
+  vestingSchedule.save();
 
   return vestingSchedule;
 }

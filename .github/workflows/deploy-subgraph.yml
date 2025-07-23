@@ -22,7 +22,7 @@ on:
 
 env:
   SUBGRAPH_ROOT: subgraphs
-  DEPLOY_SCRIPT: ./script/deployGraph.sh
+  DEPLOY_SCRIPT: ./scripts/deployGraph.sh
 
 jobs:
   deploy-single:

@@ -1,5 +1,8 @@
 name: Deploy Automation Subgraph
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:

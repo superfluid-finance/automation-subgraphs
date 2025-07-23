@@ -128,3 +128,18 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# The Graph generated files (ignore 'types' directory anywhere)
+**/types/
+
+# Internally generated subgraph YAML files (ignore at any level)
+**/*.subgraph.yaml
+**/subgraph.yaml
+
+# Matchstick generated files (WASM and JSON anywhere)
+**/*.wasm
+**/*.latest.json
+
+# Build output (ignore these directories anywhere)
+**/build/
+**/generated/

@@ -1,0 +1,62 @@
+name: Deploy Automation Subgraph
+
+on:
+  workflow_dispatch:
+    inputs:
+      automation_subgraph:
+        description: "Automation subgraph to deploy. Version is taken from package.json"
+        required: true
+        type: choice
+        options:
+          - vesting-scheduler
+          - wrap-scheduler
+          - flow-scheduler
+
+      network:
+        description: "Network to deploy to (e.g. 'optimism-sepolia', or 'all')"
+        required: true
+        type: string
+
+env:
+  SUBGRAPH_ROOT: subgraphs
+  DEPLOY_SCRIPT: ./script/deployGraph.sh
+
+jobs:
+  deploy-single:
+    if: ${{ inputs.network != 'all' }}
+    name: Deploy to ${{ inputs.network }}
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run deploy script
+        run: |
+          $DEPLOY_SCRIPT -n "${{ inputs.network }}" -d "${{ inputs.automation_subgraph }}"
+        working-directory: ${{ env.SUBGRAPH_ROOT }}
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+  deploy-matrix:
+    if: ${{ inputs.network == 'all' }}
+    name: Deploy to all supported networks
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        network:
+          - base-mainnet
+          - optimism-mainnet
+          - arbitrum-one
+          - polygon-mainnet
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run deploy script
+        run: |
+          $DEPLOY_SCRIPT -n "${{ matrix.network }}" -d "${{ inputs.automation_subgraph }}"
+        working-directory: ${{ env.SUBGRAPH_ROOT }}
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}

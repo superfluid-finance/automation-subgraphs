@@ -4,19 +4,17 @@ set -x
 
 # Required inputs
 NETWORK=""
-VERSION_LABEL=""
 DEPLOY_DIR=""
 DEPLOY_KEY="${DEPLOY_KEY:-}"
 
 print_usage_and_exit() {
-  echo "Usage: $0 -n <network> -v <version_label> -d <deploy_dir>"
+  echo "Usage: $0 -n <network> -d <deploy_dir>"
   echo ""
   echo "  -n, --network         Network name (e.g. optimism-sepolia)"
-  echo "  -v, --version-label   Version label (e.g. 1.0.4)"
   echo "  -d, --dir             Subgraph scheduler directory (e.g. vesting-scheduler)"
   echo ""
   echo "Example:"
-  echo "  DEPLOY_KEY=xyz ./deploy-subgraph.sh -n optimism-sepolia -v 1.0.4 -d vesting-scheduler"
+  echo "  DEPLOY_KEY=xyz ./deploy-subgraph.sh -n optimism-sepolia -d vesting-scheduler"
   exit 1
 }
 
@@ -25,10 +23,6 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -n|--network)
       NETWORK="$2"
-      shift 2
-      ;;
-    -v|--version-label)
-      VERSION_LABEL="$2"
       shift 2
       ;;
     -d|--dir)
@@ -43,7 +37,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate inputs
-if [[ -z "$NETWORK" || -z "$VERSION_LABEL" || -z "$DEPLOY_DIR" ]]; then
+if [[ -z "$NETWORK" || -z "$DEPLOY_DIR" ]]; then
   echo "❌ Missing required argument(s)."
   print_usage_and_exit
 fi
@@ -54,9 +48,23 @@ if [[ ! -d "$DEPLOY_DIR" ]]; then
   exit 1
 fi
 
+# Get version from package.json
+if [[ -f "$DEPLOY_DIR/package.json" ]]; then
+  VERSION_LABEL=$(jq -r .version "$DEPLOY_DIR/package.json")
+  if [[ -z "$VERSION_LABEL" || "$VERSION_LABEL" == "null" ]]; then
+    echo "❌ Version not found in $DEPLOY_DIR/package.json"
+    exit 1
+  fi
+else
+  echo "❌ package.json not found in $DEPLOY_DIR"
+  exit 1
+fi
+
 # Extract scheduler name from folder (e.g. "vesting-scheduler" → "vesting")
 SCHEDULER=$(basename "$DEPLOY_DIR" | sed 's/-scheduler$//')
-DEPLOY_TARGET="superfluid-${SCHEDULER}-${NETWORK}"
+
+# Build deploy target, removing '-mainnet' if present in network
+DEPLOY_TARGET="superfluid-${SCHEDULER}-${NETWORK/-mainnet/}"
 
 echo "📦 Scheduler:        $SCHEDULER"
 echo "🌐 Network:          $NETWORK"

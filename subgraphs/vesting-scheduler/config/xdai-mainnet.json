@@ -1,5 +1,5 @@
 {
-  "network": "xdai",
+  "network": "gnosis",
   "vestingSchedulerAddress": "0x0170FFCC75d178d426EBad5b1a31451d00Ddbd0D",
   "vestingSchedulerStartBlock": 25992375,
   "vestingSchedulerAddress_v3": "0x625F04c9B91ECdfbeb7021271749212388F12c11",

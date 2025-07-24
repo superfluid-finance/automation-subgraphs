@@ -45,6 +45,12 @@ if [[ -z "$NETWORK" || -z "$DEPLOY_DIR" ]]; then
   print_usage_and_exit
 fi
 
+# Canonicalize network name for deploy target
+CANONICAL_NETWORK="$NETWORK"
+if [[ "$NETWORK" == "xdai-mainnet" ]]; then
+  CANONICAL_NETWORK="gnosis"
+fi
+
 # Validate directory
 if [[ ! -d "$DEPLOY_DIR" ]]; then
   echo "❌ Directory not found: $DEPLOY_DIR"
@@ -66,8 +72,8 @@ fi
 # Extract scheduler name from folder (e.g. "vesting-scheduler" → "vesting")
 SCHEDULER=$(basename "$DEPLOY_DIR" | sed 's/-scheduler$//')
 
-# Build deploy target, removing '-mainnet' if present in network
-DEPLOY_TARGET="superfluid-${SCHEDULER}-${NETWORK/-mainnet/}"
+# Build deploy target using canonical network (strip '-mainnet' suffix)
+DEPLOY_TARGET="superfluid-${SCHEDULER}-${CANONICAL_NETWORK/-mainnet/}"
 
 echo "📦 Scheduler:        $SCHEDULER"
 echo "🌐 Network:          $NETWORK"
@@ -86,7 +92,7 @@ pnpm gen:yaml || { echo "❌ Subgraph YAML generation failed"; exit 1; }
 # Step 3: Generate types
 pnpm gen:types || { echo "❌ Subgraph Types generation failed"; exit 1; }
 
-# Step 4: Rename
+# Step 4: Rename subgraph YAML using original network name
 mv "$NETWORK.subgraph.yaml" subgraph.yaml
 
 # Step 5: Deploy

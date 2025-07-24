@@ -1,5 +1,5 @@
 {
-  "network": "xdai",
+  "network": "gnosis",
   "flowSchedulerAddress": "0x9cC7fc484fF588926149577e9330fA5b2cA74336",
   "flowSchedulerStartBlock": 25992374
 }

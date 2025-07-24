@@ -2,6 +2,9 @@
 set -euo pipefail
 set -x
 
+# shellcheck disable=SC2207
+GRAPH_CLI="npx --package=@graphprotocol/graph-cli@0.78.0 --yes -- graph"
+
 # Required inputs
 NETWORK=""
 DEPLOY_DIR=""
@@ -78,19 +81,21 @@ cd "$DEPLOY_DIR"
 pnpm install || { echo "❌ Dependency installation failed"; exit 1; }
 
 # Step 2: Generate YAML
-pnpm gen:yaml "$NETWORK" || { echo "❌ Subgraph YAML generation failed"; exit 1; }
+pnpm gen:yaml || { echo "❌ Subgraph YAML generation failed"; exit 1; }
 
-# Step 3: Generate code
-graph codegen "$NETWORK.subgraph.yaml" || { echo "❌ Codegen failed"; exit 1; }
+# Step 3: Generate types
+pnpm gen:types || { echo "❌ Subgraph Types generation failed"; exit 1; }
 
 # Step 4: Rename
 mv "$NETWORK.subgraph.yaml" subgraph.yaml
 
 # Step 5: Deploy
-graph deploy --studio "$DEPLOY_TARGET" \
+$GRAPH_CLI deploy --studio "$DEPLOY_TARGET" \
   --deploy-key "$DEPLOY_KEY" \
-  --version-label "$VERSION_LABEL" || { echo "❌ Deployment failed"; exit 1; }
+  --version-label "$VERSION_LABEL"
 
 echo "✅ Deployment complete: $DEPLOY_TARGET@$VERSION_LABEL"
+
+rm subgraph.yaml
 
 set +x

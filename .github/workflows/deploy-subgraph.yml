@@ -21,8 +21,8 @@ on:
         type: string
 
 env:
-  SUBGRAPH_ROOT: subgraphs
-  DEPLOY_SCRIPT: ./script/deployGraph.sh
+  SUBGRAPH_ROOT: ./subgraphs
+  DEPLOY_SCRIPT: ./scripts/deployGraph.sh
 
 jobs:
   deploy-single:
@@ -32,7 +32,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+      - name: Install
+        run: pnpm install
       - name: Run deploy script
         run: |
           $DEPLOY_SCRIPT -n "${{ inputs.network }}" -d "${{ inputs.automation_subgraph }}"
@@ -56,7 +62,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+      - name: Install
+        run: pnpm install
       - name: Run deploy script
         run: |
           $DEPLOY_SCRIPT -n "${{ matrix.network }}" -d "${{ inputs.automation_subgraph }}"
